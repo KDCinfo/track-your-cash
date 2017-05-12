@@ -1,0 +1,19 @@
+dl {
+    display: inline-block;
+    margin-bottom: 1rem;
+    max-width: 400px;
+}
+    .clear {
+        clear: both;
+    }
+    dl dt,
+    dl dd {
+        display: block;
+        float: left;
+        outline: 1px solid rgba(75,225,175,.15);
+        padding: 0.5rem;
+        width: 50%;
+    }
+.highlight {
+    background-color: #F0FFF0;
+}
