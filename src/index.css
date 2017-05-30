@@ -45,3 +45,30 @@ a.active {
 .divMark img {
     max-width: 750px;
 }
+.login-form input,
+.login-form button {
+  text-align: center;
+  width: 100%;
+}
+a,
+.NavLink {
+  color: #337ab7;
+  cursor: pointer;
+}
+  a:hover,
+  .NavLink:hover {
+    color: #23527c;
+    text-decoration: underline;
+  }
+.li-bold {
+  font-weight: bold;
+  list-style-type: none;
+  padding-bottom: 0.5rem;
+  text-decoration: underline;
+}
+@media (min-width: 768px) {
+  .login-form input {
+    padding-left: 1rem;
+    text-align: left;
+  }
+}

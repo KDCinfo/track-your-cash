@@ -4,6 +4,7 @@
   "description": "A Simple Checking Register",
   "private": true,
   "dependencies": {
+    "history": "^4.6.1",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
@@ -17,7 +18,9 @@
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
     "react-scripts": "0.9.5",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -3,8 +3,11 @@ console.clear() // 'console' object references are removed for prod builds
 import React from 'react'
 import { render } from 'react-dom'
 
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk';
+
+import {localStorageMiddleWare} from './store/functions';
 
 import { Router, Route, Switch } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -23,46 +26,56 @@ import './index.css'
 // // // // // // // // // //
 // [initial-state.js]
 //
-import initialState from './store/initial-state'
+import initialState, { getLoadedState } from './store/initial-state'
+const initialStateLoad = {...initialState, ...getLoadedState()}
 
-let store = createStore(reducers, initialState)
+// // // // // // // // // //
+// middleware
+//
+let middleware = [thunkMiddleware, localStorageMiddleWare];
+if(process.env.NODE_ENV !== 'production') {
+    let logger = require('redux-logger');
+    const loggerMiddleware = logger.createLogger();
+    middleware = [...middleware, loggerMiddleware];
+}
+
+let store = createStore(reducers, initialStateLoad, applyMiddleware(...middleware))
 
 // // // // // // // // // //
 // [ContentFrame.js]
 //
 import ContentFrame from './components/ContentFrame'
 
-const { isLoggedIn } = store.getState()
-
     // // // // // // // // // //
     // [Home.js]
     //
     import Home from './components/Home'
-    const HomeContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><Home /></ContentFrame>
+    const HomeContainer = () => <ContentFrame><Home /></ContentFrame>
 
     // // // // // // // // // //
     // [About.js]
     //
     import About from './components/About'
-    const AboutContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><About /></ContentFrame>
+    const AboutContainer = () => <ContentFrame><About /></ContentFrame>
 
     // // // // // // // // // //
     // [Login.js]
     //
     import Login from './components/Login'
-    const LoginContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><Login /></ContentFrame>
+    const inputMessage = 'E-mail (required)'
+    const LoginContainer = () => <ContentFrame><Login inputMessage={inputMessage} /></ContentFrame>
 
     // // // // // // // // // //
     // [Register.js]
     //
     import Register from './components/Register'
-    const RegisterContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><Register /></ContentFrame>
+    const RegisterContainer = () => <ContentFrame><Register /></ContentFrame>
 
     // // // // // // // // // //
     // [ProjectNotes.js]
     //
     import ProjectNotes from './components/ProjectNotes'
-    const ProjectNotesContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><ProjectNotes /></ContentFrame>
+    const ProjectNotesContainer = () => <ContentFrame><ProjectNotes /></ContentFrame>
 
     // // // // // // // // // //
     // [Markdown.js]
@@ -70,7 +83,7 @@ const { isLoggedIn } = store.getState()
     import Markdown from './components/Markdown.js'
     import myMarkR from './store/readme-cra.js'
     const CRA = () => <Markdown myMark={myMarkR} />
-    const CRAContainer = () => <ContentFrame isLoggedIn={isLoggedIn}><CRA /></ContentFrame>
+    const CRAContainer = () => <ContentFrame><CRA /></ContentFrame>
 
 const App = ({ store }) => (
     <Provider store={store}>

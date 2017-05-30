@@ -1,19 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
-import { Link } from 'react-router-dom'
-
+import { withRouter } from 'react-router-dom'
+// import { withRouter, Link } from 'react-router-dom'
 import { Grid, Row, Col } from 'react-bootstrap'
 
+import {getStorageItem} from '../store/functions';
+
 class RegisterContainer extends React.Component {
+    componentDidMount() {
+        if(!getStorageItem(sessionStorage, 'user')) {
+            this.props.history.push('/login');
+        }
+    }
     render() {
         return (
             <div>
+                <br />
+
                 <h1>Your Registry</h1>
+
+                <h3><cite>(Currently being worked on...)</cite></h3>
 
                 { this.props.registry.map( (entry, idx) => <Grid key={idx}><RegisterEntryFilled entry={entry} /></Grid> ) }
 
-                <p>Feel free to jump over to: <Link to="/logout">Logout</Link></p>
+                <br />
+                <br />
             </div>
         )
     }
@@ -50,8 +61,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-const Register = connect(
+const Register = withRouter(connect(
     mapStateToProps
-)(RegisterContainer)
+)(RegisterContainer))
 
 export default Register
