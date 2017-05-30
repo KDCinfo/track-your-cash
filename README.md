@@ -36,7 +36,7 @@ Approximate completion percentage: 50%
 
 ## HISTORY / Project Updates
 
-### 2017-05-30 : Mon
+### 2017-05-30 : Tue
 
 #### IMPLEMENTED:
 
