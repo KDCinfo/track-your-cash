@@ -2,6 +2,12 @@
 
 Track Your Cash is a project I am in the process of creating to get a better understanding of how the React ecosystem works.
 
+## Application URLs
+
+[Demo running on Digital Ocean](http://138.68.225.64)
+
+[Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
+
 ## Work In Progress
 
 Approximate completion percentage: 50%
@@ -14,21 +20,22 @@ Approximate completion percentage: 50%
 
 ### High-Level Completions:
 
-*(20%)*
+**(20%)**
 
   - High-level page/component layout and formatting (make somewhat presentable)
   - Get React Router 4 working (with Redux)
   - Get Markdown working (2 components; 1 is local-only)
   - Get project uploaded/shared on GitHub
 
-*(30% += 50%)*
+**(30% += 50%)**
 
   - Get Login/Create account working with session- and local- Storage
   - Restrict actual check registry page
 
 ## Notes and Considerations
 
-  _Using Local Storage_
+**Using Local Storage**
+
   - Just FYI the minimum size of local storage is 4.75 - 5 MB.
   - That in mind, I believe it would behoove me to determine the storage size, and begin auto-archiving at 4.5 MB.
     - A check could be done after every registry update, or the beginning of a new session.
