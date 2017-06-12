@@ -9,6 +9,7 @@ import LoginForm from './LoginForm'
 import * as ACTIONS from '../store/actions';
 import {setStorageItem} from '../store/functions';
 import config from '../store/config';
+import { getLoadedEntry } from '../store/initial-state'
 
 class LoginContainer extends React.Component {
     constructor(props) {
@@ -21,16 +22,19 @@ class LoginContainer extends React.Component {
     }
     componentWillUnmount() {
         this.props.actions.clearForm();
+        this.props.actions.clearFormExist();
     }
     handleChangeLogin = e => {
         this.props.actions.inputTyping('loggedInId', e.target.value);
     }
     handleSubmit = e => {
         e.preventDefault();
-        const email = this.props.loggedInId;
-        this.props.actions.login(email);
-        setStorageItem(sessionStorage, 'user', email);
-        this.props.history.push('/' + config.registerText);
+        const email = this.props.loggedInId
+
+        this.props.actions.login(email)
+        setStorageItem(sessionStorage, 'user', email)
+        this.props.actions.updateStateField('currentEntry', getLoadedEntry())
+        this.props.history.push('/' + config.registerText)
     }
     render() {
         const {loggedInId} = this.props;
@@ -65,7 +69,6 @@ class LoginContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-    console.log('state', state)
     return {
         loggedInId: state.loggedInId
     }

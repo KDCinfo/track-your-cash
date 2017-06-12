@@ -1,4 +1,4 @@
-# Track Your Cash
+const myMarkR = `# Git README.md - Track Your Cash
 
 Track Your Cash is a project I am in the process of creating to get a better understanding of how the React ecosystem works.
 
@@ -85,29 +85,29 @@ Approximate completion percentage: 70%
 
 ##### Routing
 Being able to trigger a history.push from a component (RegisterContainer)
-  - I was missing `withRouter` (which is in the [React Router -> Redux Integration documentation](https://reacttraining.com/react-router/web/guides/redux-integration) (if you happen to understand what you're reading ;) )
+  - I was missing \`withRouter\` (which is in the [React Router -> Redux Integration documentation](https://reacttraining.com/react-router/web/guides/redux-integration) (if you happen to understand what you're reading ;) )
   - Also good reading: [github.com/ReactTraining/history](https://github.com/ReactTraining/history)
-```
+\`\`\`
 // before
 export default connect(mapStateToProps)(Something)
 
 // after
 import { withRouter } from 'react-router-dom'
 export default withRouter(connect(mapStateToProps)(Something))
-```
+\`\`\`
 
 #### IMPLEMENTED:
 
 ##### Pseudo-Auth Restrict / Redirect
-  - I am borrowing my friend Craig's implementation via the `componentDidMount` component class method (Craig did an awesome little project that was configured really, really well (IMO), so I'll be borrowing a bit from his expertise).
-```
+  - I am borrowing my friend Craig's implementation via the \`componentDidMount\` component class method (Craig did an awesome little project that was configured really, really well (IMO), so I'll be borrowing a bit from his expertise).
+\`\`\`
 class RegisterContainer extends React.Component {
   componentDidMount() {
     if(!getStorageItem(sessionStorage, 'user')) {
       this.props.history.push('/login');
     }
   }
-```
+\`\`\`
 --------------------------------------------------
 
 ### 2017-05-30 : Tue
@@ -177,3 +177,6 @@ Provided fallback for browser's that don't support the native date input field t
     - 'delete' button replaced with 'Cancel' button.
 
   - @TODO - Add link for how to clear local storage
+`
+
+export default myMarkR

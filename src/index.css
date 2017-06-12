@@ -1,32 +1,134 @@
+/*
+  Basic Page Outline
+  ------------------
+  <body>
+    <div id="root">
+      <div>
+        <header>
+          <PageHeader>
+          <NavLink exact to="/">Home</NavLink>
+        </header>
+        <main className="content">{this.props.children}</main>
+        <footer>Footer</footer>
+*/
+
 body {
   font-family: sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
 }
-#root {
-  border: 1px solid rgba(100,220,150,.5);
-  border-radius: 1rem;
-  box-shadow: .35rem .35rem rgba(100,150,220,.25);
-  margin: 1rem auto;
-  max-width: 750px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 1rem;
-  width: 95%;
+  #root {
+    border: 1px solid rgba(100,220,150,.5);
+    border-radius: 1rem;
+    box-shadow: .35rem .35rem rgba(100,150,220,.25);
+    margin: 1rem auto;
+    max-width: 850px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1rem;
+    width: 95%;
+  }
+    header {
+      border-bottom: 1px solid rgba(100,150,220,.25);
+      margin: 0 auto 1rem;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+    footer {
+      border-top: 1px solid rgba(100,150,220,.25);
+      margin: 1rem auto 0;
+      padding-top: 1rem;
+      text-align: center;
+    }
+
+/* Register Page - Outer Frame */
+  .register-outer-div {
+    min-height: 38rem;
+  }
+
+
+.pickme {
+  background-color: #ffffff;
+  cursor: progress;
+  outline: 1px solid green;
+  float: right;
+  height: 3rem;
+  width: 3rem;
 }
-header {
-  border-bottom: 1px solid rgba(100,150,220,.25);
-  margin: 0 auto 1rem;
-  padding-bottom: 1rem;
-  text-align: center;
+
+/* Register - [Types] and [Categorys] (AutoSuggest) buttons */
+.autosuggest button.btn {
+  height: 3rem;
+  line-height: 1.25;
 }
-footer {
-  border-top: 1px solid rgba(100,150,220,.25);
-  margin: 1rem auto 0;
-  padding-top: 1rem;
-  text-align: center;
-}
+  .table>thead>tr>th.list-title {
+    padding-bottom: 2rem;
+  }
+  .form-inline .has-feedback span.autosuggest.form-control-feedback {
+    right: 7rem;
+  }
+
+/* Previous Entries - Disabled Inputs */
+  .form-inline .fallbackDatePicker .form-control:disabled,
+  .form-inline .form-control:disabled {
+      background: none;
+      border: 0 solid white;
+      border-radius: 0;
+      box-shadow: inset 0 0 0 rgba(0,0,0,0);
+      font-size: small;
+      height: 2rem;
+      padding: 0 1rem;
+  }
+    .form-inline input[name="amount"].form-control:disabled {
+      padding-left: 2rem;
+    }
+    .form-inline button:disabled {
+      display: none;
+    }
+    input[type="checkbox"]:disabled {
+      opacity: 0;
+    }
+    input[type="checkbox"]:disabled:checked {
+      opacity: 1;
+    }
+  .entry-current {
+    background-color: rgba(125,125,225,.10);
+  }
+    .entry-current .show-grid .field-col {
+      padding: 0 .3rem;
+    }
+    .entry-current .show-grid.row {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    .entry-current .show-grid label {
+      font-weight: normal;
+      padding-left: .3rem;
+    }
+    .entry-current button[type="submit"] {
+      margin: 0 .5rem 1rem 0;
+    }
+  .entry-previous {
+    border-top: 1px solid #cccccc;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    background-color: rgba(125,225,125,.15);
+  }
+    .entry-previous .show-grid .field-col {
+      padding: 0 0 0 1rem;
+    }
+    .entry-previous select::-ms-expand {
+      display: none;
+    }
+    .entry-previous select {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+    }
+    .entry-previous input[type="number"] {
+      -moz-appearance: textfield;
+    }
+
 a.active {
   font-weight: bold;
   text-decoration: underline;
@@ -41,6 +143,16 @@ a.active {
   box-shadow: inset 2px 2px 0.75em rgba(155,155,195,.5);
   margin: 3rem;
 }
+
+/* UTIL */
+
+.no-wrap {
+  display: block;
+  white-space: nowrap;
+}
+
+/* PAGE-SPECIFIC */
+
 .divMark,
 .divMark img {
     max-width: 750px;
@@ -66,6 +178,63 @@ a,
   padding-bottom: 0.5rem;
   text-decoration: underline;
 }
+
+/* Registry Page */
+
+.show-grid,
+.show-grid > div {
+  /*margin: 0;*/
+  outline: 0px solid green;
+  /*padding: 0 0.5rem;*/
+}
+.show-grid label {
+  display: block;
+  margin: 0;
+}
+.show-grid label span {
+  font-size: 12px;
+}
+
+.form-inline .form-group {
+  display: block;
+}
+.form-inline .form-control {
+  display: block;
+  height: 3rem;
+  margin: 0;
+  padding: 0 0 0 .5rem;
+  width: 100%;
+}
+.form-inline input[name='amount'],
+.form-inline .fallbackDatePicker,
+.form-inline .fallbackDatePicker .form-group {
+  display: inline-block;
+}
+.form-inline .fallbackDatePicker select.form-control {
+  display: inline-block;
+  height: 3rem;
+  padding: 0;
+  width: auto;
+}
+input[name='amount'].form-control {
+  padding-left: 2rem;
+  width: 100%;
+}
+  .form-inline span.amount::before {
+    content: "$";
+    position: absolute;
+      left: .7rem;
+      top: 0;
+  }
+  .form-inline span.amount {
+    position: relative;
+    white-space: nowrap;
+  }
+.form-inline .has-feedback .form-control-feedback {
+  right: 1rem;
+  top: 2rem;
+}
+
 @media (min-width: 768px) {
   .login-form input {
     padding-left: 1rem;

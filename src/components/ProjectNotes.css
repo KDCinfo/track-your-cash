@@ -12,8 +12,14 @@ dl {
         float: left;
         outline: 1px solid rgba(75,225,175,.15);
         padding: 0.5rem;
-        width: 50%;
     }
+        dl dt {
+            width: 70%;
+        }
+        dl dd {
+            text-align: center;
+            width: 30%;
+        }
 .highlight {
     background-color: #F0FFF0;
 }

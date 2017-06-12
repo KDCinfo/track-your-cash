@@ -1,21 +1,29 @@
 import React from "react"
 
-import { Form, Row, Col } from 'react-bootstrap'
+import { Row, Col, Form, FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap'
 
 const LoginForm = ({loggedInId, handleChangeLogin, handleSubmit, inputMessage}) => {
     return (
         <Form onSubmit={handleSubmit} className="login-form">
             <Row className="show-grid">
                 <Col xs={12} sm={7}>
-                    <input type="email"
-                        placeholder={inputMessage}
-                        title={inputMessage}
-                        value={loggedInId}
-                        onChange={handleChangeLogin}
-                        required />
+                    <FormGroup>
+                        <InputGroup>
+                            <InputGroup.Addon>@</InputGroup.Addon>
+                            <FormControl
+                                type="email"
+                                placeholder={inputMessage}
+                                title={inputMessage}
+                                value={loggedInId}
+                                onChange={handleChangeLogin}
+                                required
+                                autoFocus
+                            />
+                        </InputGroup>
+                    </FormGroup>
                 </Col>
                 <Col xs={12} sm={5}>
-                    <button>Your Register Awaits...</button>
+                    <Button type="submit">Your Register Awaits...</Button>
                 </Col>
             </Row>
         </Form>

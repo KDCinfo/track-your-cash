@@ -1,10 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-// import { withRouter, Link } from 'react-router-dom'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { bindActionCreators } from 'redux'
+
+import { Grid } from 'react-bootstrap'
 
 import {getStorageItem} from '../store/functions';
+
+import RegisterEntryFilled from './RegisterEntryFilled'
+
+import * as ACTIONS from '../store/actions'
 
 class RegisterContainer extends React.Component {
     componentDidMount() {
@@ -14,14 +19,18 @@ class RegisterContainer extends React.Component {
     }
     render() {
         return (
-            <div>
-                <br />
-
+            <div className="register-outer-div">
                 <h1>Your Registry</h1>
 
-                <h3><cite>(Currently being worked on...)</cite></h3>
+                <h3>New Entry</h3>
 
-                { this.props.registry.map( (entry, idx) => <Grid key={idx}><RegisterEntryFilled entry={entry} /></Grid> ) }
+                <Grid bsClass="grid-layout" key={this.props.currentEntry.id} fluid={true}><RegisterEntryFilled entryIdx={0} entryId={this.props.currentEntry.id} entry={this.props.currentEntry} yieldRouteHistoryBlock={true} /></Grid>
+
+                <h3>Previous Entries</h3>
+
+                <div className="show-grid">
+                    { this.props.registry.map( (entry, idx) => <Grid bsClass="grid-layout" key={idx} fluid={true}><RegisterEntryFilled entryIdx={idx} entryId={entry.id} entry={entry} yieldRouteHistoryBlock={false} /></Grid> ) }
+                </div>
 
                 <br />
                 <br />
@@ -30,39 +39,22 @@ class RegisterContainer extends React.Component {
     }
 }
 
-class RegisterEntryFilled extends React.Component {
-    render() {
-        return (
-            <Row className="show-grid">
-                <Col xs={6} sm={4}>{this.props.entry.id}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.date}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.description}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.amount}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.type}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.category}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.notes}</Col>
-                <Col xs={6} sm={4}>{this.props.entry.reconciled}</Col>
-            </Row>
-
-            // Entry Date | Entry Type | Entry Description | -(Entry Amount) | [Update]
-
-            // Category   | Notes                          | Reconciled      | [Delete]
-
-            // Add Entry                                                     | [Logout]
-
-        )
+const mapStateToProps = (state) => {
+    return {
+        registry: state.registry,
+        currentEntry: state.currentEntry
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log('state', state)
+const mapDispatchToProps = dispatch => {
     return {
-        registry: state.registry
+        actions: bindActionCreators(ACTIONS, dispatch)
     }
 }
 
 const Register = withRouter(connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(RegisterContainer))
 
 export default Register

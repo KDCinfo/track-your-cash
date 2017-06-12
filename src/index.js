@@ -3,7 +3,7 @@ console.clear() // 'console' object references are removed for prod builds
 import React from 'react'
 import { render } from 'react-dom'
 
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk';
 
@@ -26,8 +26,10 @@ import './index.css'
 // // // // // // // // // //
 // [initial-state.js]
 //
-import initialState, { getLoadedState } from './store/initial-state'
-const initialStateLoad = {...initialState, ...getLoadedState()}
+import initialState, { getLoadedState, getLoadedEntry } from './store/initial-state'
+    const initialStateLoad = {...initialState, ...getLoadedState(), currentEntry: getLoadedEntry()}
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    // compose: Config for Chrome [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension#usage)
 
 // // // // // // // // // //
 // middleware
@@ -39,7 +41,9 @@ if(process.env.NODE_ENV !== 'production') {
     middleware = [...middleware, loggerMiddleware];
 }
 
-let store = createStore(reducers, initialStateLoad, applyMiddleware(...middleware))
+let store = createStore(reducers, initialStateLoad, composeEnhancers(
+    applyMiddleware(...middleware)
+))
 
 // // // // // // // // // //
 // [ContentFrame.js]

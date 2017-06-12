@@ -1,20 +1,40 @@
 const myMarkP = `# Project Notes
 
-This entire notes section is \`coded in Markdown\` for a little easier prettification (as opposed to formatting it with full HTML tagging).
+This 'Project Notes' section is \`coded in Markdown\` (just wanted to see that I could). And for convenience, a copy of the project's \`README.md\` is included just below these notes as well.
 
 ## App State
 
 \`\`\`
   loggedInId: '',
-  base: 0,
   registry: [
     {
       id, date, description, amount, type, category, notes, reconciled
     }
   ],
-  visibilityFilter: SHOW_ALL,
-  withdrawError : false,
-  transactionSuccess : false,
+  currentEntry: {},
+  types: [
+    'Deposit',
+    'Withdraw',
+    'EFT',
+    'Cash',
+    'ATM',
+    'Debit',
+    'Credit'
+  ],
+  categorys: [
+    'Income - Salary',
+    'Income - Refund',
+    'Expense - Dining',
+    'Expense - Entertainment',
+    'Expense - Groceries',
+    'Expense - Health',
+    'Expense - Petty Cash',
+    'Expense - Travel',
+  ],
+  base: 0,                    // (to be used for archiving)
+  visibilityFilter: SHOW_ALL, // (to be used for filtering)
+  withdrawError : false,      // (to be used for overdraft warnings/notifications)
+  transactionSuccess : false, // (currently unused)
 \`\`\`
 
 ## Components
@@ -33,12 +53,14 @@ This entire notes section is \`coded in Markdown\` for a little easier prettific
   - [Login] (An account will be created if e-mail does not already exist)
 
 ### Content - Registry
+\`\`\`
+  Entry Date | Entry Description | -(Entry Amount) |  [Edit]  | [Update]
 
-  Entry Date | Entry Type | Entry Description | -(Entry Amount) | [Update]
+  Entry Type | Category  | Notes |    Reconciled   | [Delete] | [Cancel]
 
-  Category   | Notes                          | Reconciled      | [Delete]
-
-  Add Entry                                                     | [Logout]
+                                 |     Add Entry
+\`\`\`
 `
+console.log('myMarkP')
 
 export default myMarkP

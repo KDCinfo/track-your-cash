@@ -46,14 +46,17 @@ class ContentFrameContainer extends React.Component {
     handleClickLogout() {
         this.props.actions.logoutUser();
         deleteStorageItem(sessionStorage, 'user');
+        deleteStorageItem(sessionStorage, 'entry');
         this.props.history.push('/');
     }
     render() {
         return (
             <div>
                 <header>
-                    <PageHeader>Track Your Cash
-                        <br/><small>(a checking register)</small></PageHeader>
+                    <PageHeader>
+                        Track Your Cash<br/>
+                        <small>(a checking register)</small>
+                    </PageHeader>
                     [ <NavLink exact to="/">Home</NavLink> ]&nbsp;
                     {this.getWhichLink()}
                     [ <NavLink to="/about">About</NavLink> ]&nbsp;
