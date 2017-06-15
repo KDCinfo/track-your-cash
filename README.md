@@ -203,8 +203,10 @@ Provided fallback for browser's that don't support the native date input field t
 
 ### 2017-06-14 : Wed
 
-#### QA (a little manual testing):
+#### QA:
 
 Checked for adding quotes, apostrophes, and <script> tags
 
-Checking register 'previous entries' can now be updated or deleted.
+#### IMPLEMENTED:
+
+Checking register 'previous entries' can now be updated and deleted.
