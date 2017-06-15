@@ -135,6 +135,7 @@ class DateInputContainer extends React.Component {
                     <FormGroup controlId={'field-date-' + this.props.entryId}>
                         <ControlLabel srOnly={this.props.isDateDisabled} bsClass="field-label"><span>Date:</span></ControlLabel>
                         <FormControl
+                            autoFocus={this.props.focusNew}
                             disabled={this.props.isDateDisabled}
                             required={this.props.isDateRequired}
                             type="date"
@@ -151,6 +152,7 @@ class DateInputContainer extends React.Component {
                     <FormGroup>
                         <ControlLabel srOnly={this.props.isDateDisabled} htmlFor={"field-inputYear-" + this.props.entryId}><span>Year</span></ControlLabel>
                         <FormControl
+                            autoFocus={this.props.focusNew}
                             disabled={this.props.isDateDisabled}
                             required={this.state.fallbackRequired && this.props.isDateRequired}
                             componentClass="select"

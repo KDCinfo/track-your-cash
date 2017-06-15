@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { Grid } from 'react-bootstrap'
+import { Grid, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
 import { getStorageItem, setStorageItem } from '../store/functions'
 
@@ -16,13 +16,21 @@ class RegisterRootContainer extends React.Component {
         super(props)
 
         this.state = {
-            editId: 0
+            editId: 0,
+            sortField: 'date',
+            sortOrder: 'ASC',
+            filterText: '',
+            showSortsPopup: false
         }
 
         this.editEntry = this.editEntry.bind(this)
         this.editEntryCancel = this.editEntryCancel.bind(this)
-        this.editEntrySave = this.editEntrySave.bind(this)
         this.deleteEntry = this.deleteEntry.bind(this)
+        this.setSort = this.setSort.bind(this)
+        this.filterIt = this.filterIt.bind(this)
+        this.sortIt = this.sortIt.bind(this)
+        this.showSortsPopup = this.showSortsPopup.bind(this)
+        this._handleKeyDown = this._handleKeyDown.bind(this)
     }
     componentDidMount() {
         if(!getStorageItem(sessionStorage, 'user')) {
@@ -35,9 +43,6 @@ class RegisterRootContainer extends React.Component {
     editEntryCancel() {
         this.setState({ editId: 0 })
     }
-    editEntrySave() {
-        //
-    }
     deleteEntry(paramObj) {
         this.props.actions.removeFromStateArray(paramObj.entryId)
 
@@ -47,13 +52,74 @@ class RegisterRootContainer extends React.Component {
 
         setStorageItem(localStorage, this.props.loggedInId, JSON.stringify(newStateRegistry))
     }
+    sortIt(a,b) {
+        if (this.state.sortOrder === 'DESC') {
+            return (b[this.state.sortField] > a[this.state.sortField])
+        } else {
+            return (b[this.state.sortField] < a[this.state.sortField])
+        }
+    }
+    filterIt(entry) {
+        return entry.description.toLowerCase().includes(this.state.filterText.toLowerCase())
+         || entry.notes.toLowerCase().includes(this.state.filterText.toLowerCase())
+         || entry.type.toLowerCase().includes(this.state.filterText.toLowerCase())
+         || entry.category.toLowerCase().includes(this.state.filterText.toLowerCase())
+         || entry.date.toLowerCase().includes(this.state.filterText.toLowerCase())
+         || entry.amount.includes(this.state.filterText)
+    }
+    setSort(e) {
+        console.log('[setSort]', e.target.name, e.target.value)
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    setFilter(e) {
+        this.setState({ filterText: e.target.value })
+    }
+    showSortsPopup() {
+        console.log('[showSortsPopup]', this.state.showSortsPopup)
+        if (this.state.showSortsPopup) {
+            document.removeEventListener("keyup", this._handleKeyDown)
+            this.setState({ showSortsPopup: false })
+        } else {
+            document.addEventListener("keyup", this._handleKeyDown)
+            this.setState({ showSortsPopup: true })
+        }
+    }
+    _handleKeyDown(event) {
+        console.log('[_handleKeyDown]', event)
+        // const ESCAPE_KEY = 27
+        switch( event.keyCode ) {
+            case 27:
+                this.showSortsPopup()
+                break;
+            default:
+                break;
+        }
+    }
+    onKeyPress = event => {
+console.log('[onKeyPress]', event, event.key)
+        if(event.key === 'Enter') {
+           // this.setState({ value: event.target.value })
+        }
+    }
     render() {
         const editEntry = this.editEntry,
               editEntryCancel = this.editEntryCancel,
-              editEntrySave = this.editEntrySave,
               deleteEntry = this.deleteEntry
 
-        const callbacksCurrent = {editEntry, editEntryCancel, editEntrySave, deleteEntry}
+        const callbacksCurrent = {editEntry, editEntryCancel, deleteEntry},
+              orderFields = [
+                  { key: 'date',            value: 'Date' },
+                  { key: 'description',     value: 'Description' },
+                  { key: 'amount',          value: 'Amount' },
+                  { key: 'type',            value: 'Type' },
+                  { key: 'category',        value: 'Category' },
+                  { key: 'notes',           value: 'Memo' },
+                  { key: 'reconciled',      value: 'Reconciled' },
+              ],
+              orderDir = [
+                { key: 'ASC',               value: 'Ascending [a-z]' },
+                { key: 'DESC',              value: 'Descending [z-a]' },
+              ]
 
         return (
             <div className="register-outer-div">
@@ -63,10 +129,41 @@ class RegisterRootContainer extends React.Component {
 
                 <Grid bsClass="grid-layout" key={this.props.currentEntry.id} fluid={true}><RegisterEntryFilled {...callbacksCurrent} entry={this.props.currentEntry} editId={this.state.editId} yieldRouteHistoryBlock={true} /></Grid>
 
-                <h3 className={this.props.registry.length === 0 ? 'hide' : ''}>Previous Entries</h3>
+                <div className="entries-previous">
+                    <h3 className={this.props.registry.length === 0 ? 'hide' : ''}>Previous Entries</h3>
+                    <div className="pull-right sortFilter">
+
+                        <input type="text" size="10" placeholder="Filter text" onChange={this.setFilter.bind(this)} />
+
+                        <button type="button" className="btn btn-success" onClick={this.showSortsPopup}>Sort Options {this.state.showSortsPopup ? '--' : '+'}</button>
+                        <div className={this.state.showSortsPopup ? 'pref preferences' : 'pref preferences-hide'}>
+                            <FormGroup>
+                                <ControlLabel><span>Sort Field</span></ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    name="sortField"
+                                    onChange={this.setSort}
+                                >
+                                    { orderFields.map( (obj, key) => <option key={obj.key} value={obj.key}>{obj.value}</option> ) }
+                                </FormControl>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <ControlLabel><span>Sort Order</span></ControlLabel>
+                                <FormControl
+                                    componentClass="select"
+                                    name="sortOrder"
+                                    onChange={this.setSort}
+                                >
+                                    { orderDir.map( (obj, key) => <option key={obj.key} value={obj.key}>{obj.value}</option> ) }
+                                </FormControl>
+                            </FormGroup>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="show-grid">
-                    { this.props.registry.map( (entry, idx) => <Grid bsClass="grid-layout" key={entry.id} fluid={true}><RegisterEntryFilled {...callbacksCurrent} entry={entry} editId={this.state.editId} yieldRouteHistoryBlock={false} /></Grid> ) }
+                    { this.props.registry.filter( this.filterIt ).sort( this.sortIt ).map( (entry, idx) => <Grid bsClass="grid-layout" key={entry.id} fluid={true}><RegisterEntryFilled {...callbacksCurrent} entry={entry} editId={this.state.editId} yieldRouteHistoryBlock={false} /></Grid> ) }
                 </div>
 
                 <br />

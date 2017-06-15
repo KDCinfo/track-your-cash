@@ -30,6 +30,8 @@ import * as ACTIONS from '../store/actions'
 
 import { formatFixed2, getStorageItem, setStorageItem, deleteStorageItem } from '../store/functions'
 
+import { newCurrentEntry } from '../store/initial-state'
+
 class RegisterEntryFilledContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -302,6 +304,14 @@ class RegisterEntryFilledContainer extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
 
+            // if (parseFloat(eid) === 0) { // 0 = Current (New) Entry
+            //     whichStorage = 'entry',
+            //     whichState = 'currentEntry'
+
+            // if (parseFloat(eid) > 0) {   // >0 = Existing Entry
+            //     whichStorage = 'entryExist'
+            //     whichState = 'existingEntry'
+
         // Validate Form
         const thisEntryId = this.props.entry.id,                        // 0 == New entry | >0 == Existing entry
               whichState = (thisEntryId > 0) ? 'entryExist' : 'entry',  // sessionStorage
@@ -318,15 +328,10 @@ class RegisterEntryFilledContainer extends React.Component {
                           newEntryIdUpdate = {...newRegistryEntry, id: nextId },
                           newRegistry = this.props.registry.concat([newEntryIdUpdate])
 
-                        // if (parseFloat(eid) === 0) { // 0 = Current (New) Entry
-                        //     whichStorage = 'entry',
-                        //     whichState = 'currentEntry'
-                        // if (parseFloat(eid) > 0) {   // >0 = Existing Entry
-                        //     whichStorage = 'entryExist'
-                        //     whichState = 'existingEntry'
-
                     this.props.actions.addToStateArray('registry', newEntryIdUpdate)
                     setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...this.props.oldState, registry: newRegistry }))
+                    setStorageItem(sessionStorage, 'entry', JSON.stringify( {...newRegistryEntry, ...newCurrentEntry} ))
+                    this.props.actions.clearForm()
 
                     console.log('ADD submitted', thisEntry)
 
@@ -499,6 +504,7 @@ class RegisterEntryFilledContainer extends React.Component {
                     <Row className={`show-grid ${!isEdit && 'dotted-bottom'}`}>
                         <Col className="field-col" xs={col56} sm={3}>
                             <DateInput
+                                focusNew={(this.props.editId === this.props.entry.id)}
                                 entryId={entryEdit.id}
                                 showInputDate={this.state.showInputDate}
                                 handleChangeDate={this.handleChangeDate.bind(this)}

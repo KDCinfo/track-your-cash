@@ -95,6 +95,7 @@ body {
     }
   .entry-current {
     background-color: rgba(125,125,225,.10);
+    padding: 1rem 0;
   }
     .entry-current .show-grid .field-col {
       padding: 0 .3rem;
@@ -111,7 +112,7 @@ body {
       margin: 0 .5rem 1rem 0;
     }
   .entry-previous {
-    border-top: 1px solid #cccccc;
+    border-top: 2px solid rgba(0,128,0,.35);
     padding-top: .25rem;
     padding-bottom: .25rem;
     background-color: rgba(125,225,125,.15);
@@ -156,6 +157,72 @@ body {
       }
       .entryButtons button.button-cancel {
       }
+
+/* Registry Page - Filter and Sort */
+
+  .entries-previous {
+    min-height: 4rem;
+    position: relative;
+  }
+    .register-outer-div > .grid-layout-fluid {
+      border: 3px solid #2255aa;
+      border-radius: 15px;
+    }
+    .register-outer-div > .show-grid {
+      border: 3px solid green;
+      border-radius: 15px;
+      max-height: 1000px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+/* Sort Options Flyout */
+
+    .sortFilter {
+      position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 10;
+      text-align: right;
+    }
+    .sortFilter input {
+      margin-right: 1rem;
+    }
+    .sortFilter .pref {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+        border-radius: 10px;
+      margin: 0;
+      padding: 2rem;
+      text-align: left;
+      width: 250px;
+    }
+    .sortFilter .pref.preferences {
+      height: auto;
+        min-height: 100px;
+      transition: all 0.35s cubic-bezier(.26,.69,.97,.57);
+    }
+      .sortFilter .pref.preferences .form-group {
+        opacity: 1;
+        transition: all 0.35s cubic-bezier(.26,.69,.97,.57);
+      }
+    .sortFilter .pref.preferences-hide {
+      border: 0;
+      height: 0;
+        min-height: 0;
+      padding: 0;
+      transition: all 0.5s cubic-bezier(1,0,1,0);
+    }
+      .sortFilter .pref.preferences-hide .form-group,
+      .sortFilter .pref.preferences-hide .form-group label,
+      .sortFilter .pref.preferences-hide .form-group select {
+        border: 0;
+        height: 0;
+        font-size: 0;
+        padding: 0;
+        transition: all 0.5s cubic-bezier(.25,1,.5,1);
+      }
+
 
 a.active {
   font-weight: bold;

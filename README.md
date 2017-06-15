@@ -24,16 +24,14 @@ My API endpoint of personal choice is still Laravel (PHP), but I did everyting w
 
 ## Work In Progress
 
-Approximate completion percentage: 85%
+Approximate completion percentage: 90%
 
 ### High-Level To-Dos:
 
-  - Leftover tweaks and massaging (15%)
+  - Leftover tweaks and massaging (10%)
 
     - Add "TOTAL" based on calculation of all previous entries (+ reconciled)
     - Add "NetTotal" based on calc (- reconciled)
-    - Add sorting on Previous Entries
-    - Add filtering on Previous Entries
     - Add 'Export' option (just save the localStorage to a local JSON file)
     - Add link to delete account (delete localStorage)
 
@@ -91,6 +89,11 @@ Approximate completion percentage: 85%
       - Set 'disabled' to false for active existing entry
       - 'Edit' button replaced with 'Update' button.
       - 'Delete' button replaced with 'Cancel' button.
+
+**(<=90%)**
+  - Add 'Filtering' and 'Sorting'
+  - Clear 'New Entry' form after adding to registry
+  - Added a little CSS splash
 
 ## Notes and Considerations
 
@@ -210,3 +213,25 @@ Checked for adding quotes, apostrophes, and <script> tags
 #### IMPLEMENTED:
 
 Checking register 'previous entries' can now be updated and deleted.
+
+--------------------------------------------------
+
+### 2017-06-15 : Thu
+
+#### IMPLEMENTED:
+
+##### Filtering
+
+Filtering will yield all entries found in any of the input fields, and is case-insensitive.
+
+##### Sorting
+
+The sorting flyout panel provides the option to select a sort field and a sort direction. The panel will close on a 2nd click to the 'Sort Options' button, or by pressing the Escape key.
+
+##### Starting Clean
+
+When adding a new entry, all fields will clear except the date.
+
+#### CSS Tweaks
+
+Added a little color and contrast to the register panels.

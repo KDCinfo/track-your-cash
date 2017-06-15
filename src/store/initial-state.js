@@ -37,6 +37,15 @@ const currentEntry = {
     "reconciled": false
 }
 
+export const newCurrentEntry = {
+    "description": "",
+    "amount": "0",
+    "type": "",
+    "category": "",
+    "notes": "",
+    "reconciled": false
+}
+
 // INITIAL LOAD ORDER
 
 // const initialStateLoad = {...initialState, ...getLoadedState(), currentEntry: getLoadedEntry()}
