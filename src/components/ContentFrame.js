@@ -59,9 +59,9 @@ class ContentFrameContainer extends React.Component {
                     </PageHeader>
                     [ <NavLink exact to="/">Home</NavLink> ]&nbsp;
                     {this.getWhichLink()}
-                    [ <NavLink to="/about">About</NavLink> ]&nbsp;
                     [ <NavLink to="/readme">Project Notes</NavLink> ]&nbsp;
                     {this.state.showCRA}
+                    [ <NavLink to="/about">About</NavLink> ]&nbsp;
                 </header>
 
                 <main className="content">{this.props.children}</main>

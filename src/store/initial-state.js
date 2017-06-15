@@ -37,24 +37,50 @@ const currentEntry = {
     "reconciled": false
 }
 
+// INITIAL LOAD ORDER
+
+// const initialStateLoad = {...initialState, ...getLoadedState(), currentEntry: getLoadedEntry()}
+
+export const getLoadedState = () => {
+    let loadedState = {},
+        userId = getStorageItem(sessionStorage, 'user')
+
+    if(userId) {
+        let getLocalUserStorage = getObjectFromStorage(localStorage, userId)
+
+        if (getLocalUserStorage) {
+            loadedState.loggedInId = userId
+            loadedState.registry = getLocalUserStorage.registry
+        } else {
+            // Session 'user' exists, but no localStorage 'user' found
+            // Likely a problem when creating localStorage: Start over
+            loadedState.loggedInId = ''
+            deleteStorageItem(sessionStorage, 'user')
+            deleteStorageItem(sessionStorage, 'entry')
+            deleteStorageItem(sessionStorage, 'entryExist')
+        }
+    }
+    return {...initialState, ...loadedState}
+}
+
 export const getLoadedEntry = () => {
     const userObjStor = getStorageItem(sessionStorage, 'user'),
           entryObjStor = getStorageItem(sessionStorage, 'entry')
 
     let entryObj
 
-    if(!entryObjStor) {
-        entryObj = currentEntry
-        if(userObjStor) {
+    if(!entryObjStor) {                             // If no session entry, create it
+        entryObj = currentEntry                     // create it using [currentEntry] (set above)
+        if(userObjStor) {                           // but only if there is an active user
             setStorageItem(sessionStorage, 'entry', JSON.stringify(entryObj));
-        }
+        }                                           // else just return an initialized (empty) entry object
     } else {
-        entryObj = JSON.parse(entryObjStor)
+        entryObj = JSON.parse(entryObjStor)         // If session entry exists, return it for initializing state
     }
     return entryObj
 }
 
-export const getLoadedEntryExisting = () => {
+export const getLoadedEntryExisting = () => {       // I'm unsure I'm using this (yet)
     const userObjStor = getStorageItem(sessionStorage, 'user'),
           entryObjStor = getStorageItem(sessionStorage, 'entryExist')
 
@@ -69,28 +95,6 @@ export const getLoadedEntryExisting = () => {
         entryObj = JSON.parse(entryObjStor)
     }
     return entryObj
-}
-
-export const getLoadedState = () => {
-    let loadedState = {},
-        userId = getStorageItem(sessionStorage, 'user')
-
-    if(userId) {
-        let getLocalUserStorage = getObjectFromStorage(localStorage, userId)
-
-        if(getLocalUserStorage) {
-            loadedState.loggedInId = userId
-            loadedState.registry = getLocalUserStorage.registry
-        } else {
-            // Session 'user' exists, but no localStorage 'user' found
-            // Likely a problem when creating localStorage: Start over
-            loadedState.loggedInId = ''
-            deleteStorageItem(sessionStorage, 'user')
-            deleteStorageItem(sessionStorage, 'entry')
-            deleteStorageItem(sessionStorage, 'entryExist')
-        }
-    }
-    return {...initialState, ...loadedState}
 }
 
 export default initialState
@@ -118,20 +122,20 @@ export default initialState
         Add to Register
             -> Update (increment) Register ID (currentEntry.Id)
             -> Copy currentEntry    -> state.registry[]
-            -> Remove sessionStorage 'entry'
+            -> Clear sessionStorage 'entry'
             -> Run getLoadedEntry()
 
         Existing Form: Update Fields
             -> [Edit] button
-                -> Add selected existing register entry to state.existingEntry
-                ...These should happen automatically when state.existingEntry is populated
-                    -> Show [Update] buttton + [Cancel] button (hide [Delete] button)
+                -> Add selected existing register entry to sessionStorage['existingEntry']
+                ...These should happen automatically when 'existingEntry' is populated
+                    -> Show [Save] buttton + [Cancel] button (hide [Delete] button)
                     -> Enable selected existing register entry
 
         Update Register
             -> Get current Register ID (Key: entry.Id)
-            -> Copy state.existingEntry to replace existing state.registry[]
-            -> Clear state.existingEntry
+            -> Copy 'existingEntry' to replace existing state.registry[]
+            -> Clear sessionStorage['existingEntry']
 
     [ContentFrame.js]
         Logout Nav Link             -> handleClickLogout()
@@ -155,7 +159,7 @@ export default initialState
     [base: 0]
 
     // 'Base' is to allow for future archiving
-        // The live register base will be the totality of the archived registries
+        // The live register base (starting total) will be the totality of the archived registries
 
     registry: [
         {   "id" : 0,

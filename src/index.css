@@ -78,6 +78,7 @@ body {
       box-shadow: inset 0 0 0 rgba(0,0,0,0);
       font-size: small;
       height: 2rem;
+      margin: .75rem 0 .75rem;
       padding: 0 1rem;
   }
     .form-inline input[name="amount"].form-control:disabled {
@@ -115,6 +116,13 @@ body {
     padding-bottom: .25rem;
     background-color: rgba(125,225,125,.15);
   }
+    .entry-previous .show-grid.row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .entry-previous .show-grid.dotted-bottom {
+      border-bottom: 1px dotted #cccccc;
+    }
     .entry-previous .show-grid .field-col {
       padding: 0 0 0 1rem;
     }
@@ -128,6 +136,26 @@ body {
     .entry-previous input[type="number"] {
       -moz-appearance: textfield;
     }
+    .entryButtons {
+      padding: 0;
+      text-align: center;
+    }
+      .entryButtons button.btn-xs {
+      }
+      .entryButtons button.btn-sm {
+        margin: 0;
+      }
+      .entryButtons button.button-edit {
+      }
+      .entryButtons button.button-remove {
+        margin-top: 0.7rem;
+      }
+      .entryButtons button.button-save {
+        height: 3.5rem;
+        margin-top: 2rem;
+      }
+      .entryButtons button.button-cancel {
+      }
 
 a.active {
   font-weight: bold;
@@ -144,12 +172,14 @@ a.active {
   margin: 3rem;
 }
 
+
 /* UTIL */
 
 .no-wrap {
   display: block;
   white-space: nowrap;
 }
+
 
 /* PAGE-SPECIFIC */
 

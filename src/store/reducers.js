@@ -1,5 +1,5 @@
 import * as ACTIONS from './actions'
-// import {getLastTransaction} from './functions'
+
 import initialState, { getLoadedEntry } from './initial-state'
 
 const clearFormObject = () => {
@@ -16,23 +16,6 @@ const clearFormExistObject = () => {
         existingEntry: {}
     }
 }
-/*
-  const buildTransactionObject = (type, amount, description, date) => {
-      const amt = amount
-      const newBalance = amt
-      return {
-          date: date,
-          description: description,
-          amount: amt,
-          balance: newBalance
-      }
-  }
-  const getNewStateAfterTransaction = (date, entry, entries) => {
-      const newEntries = {...entries, [date]: entry}
-      const obj = {transactionEntries: newEntries, transactionSuccess: true, pageIndex: 1}
-      return {...clearFormObject(), ...obj}
-  }
-*/
 
 const registerReducer = (state = {}, action) => {
     switch (action.type) {
@@ -49,34 +32,29 @@ const registerReducer = (state = {}, action) => {
           return {...state, ...obj}
         }
         case ACTIONS.ADD_TO_STATE_ARRAY: {
-
-//           const oldStateArray = state[action.key]
-// console.log('[reducers 5a]', oldStateArray)
-
-//           let newStateArray;
-//                 oldStateArray.push(action.value)
-//                 newStateArray = oldStateArray
-
-
           const oldStateArray = state[action.key],
-                newRegistryEntry = action.value
-console.log('[NEW - oldStateArray 0]', typeof(oldStateArray), Object.prototype.toString.call( oldStateArray ), oldStateArray)
-          let newStateArray;
+                newRegistryEntry = action.value,
                 newStateArray = oldStateArray.concat([newRegistryEntry])
 
-                // obj = {[action.key]: newState}
-console.log('[reducers 1]', typeof(action.key), action.key)   // string, registry
-console.log('[reducers 2]', action.value) // JSON parsed object
-console.log('[reducers 3a]', state[action.key])
-console.log('[reducers 3b]', newStateArray)     // [Object, Object]
-// console.log('[reducers 4]', obj)
-          // JSON.stringify({...oldState, registry: newRegistry })
           return {...state, [action.key]: newStateArray}
-          // return {...state}
         }
+        case ACTIONS.REMOVE_FROM_STATE_ARRAY: {
+          const oldStateArray = state['registry'],
+                entryId = action.previousEntry,
+                newStateArray = oldStateArray.filter( ( entry ) => entry.id !== entryId )
+          return {...state, registry: newStateArray}
+        }
+        case ACTIONS.UPDATE_REGISTRY_ENTRY:
+          const newRegistry = state.registry.map((entry, index) => {
+            if (entry.id === action.updatedEntry.id) {
+              return Object.assign({}, entry, action.updatedEntry)
+            }
+            return entry
+          })
+          return {...state, registry: newRegistry}
         case ACTIONS.INPUT_TYPING_REG: {
           const registryObj = [],
-                obj = {withdrawError: false, transactionSuccess: false, registry: registryObj.concat( { [action.key]: action.value } ) }
+            obj = {withdrawError: false, transactionSuccess: false, registry: registryObj.concat( { [action.key]: action.value } ) }
           return {...state, ...obj}
         }
         case ACTIONS.LOGIN_NEW: {

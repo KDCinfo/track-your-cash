@@ -1,8 +1,12 @@
 /*
-    React Component - Form: Checking Register Entry Form (new and existing entries) (new: eid=0), existing: eid>0)
+    React Component - Form: Checking Register Entry Form
 
-        // Entry Date | Trans Type | Entry Description | -(Entry Amount) | Existing:  [Edit]  | [Update]
-        // Category   | Notes                          | Reconciled      | Existing: [Delete] | [Cancel]
+    New and Existing entries:
+        [New]       eid === 0
+        [Existing]  eid > 0
+
+        // Entry Date | Trans Type | Entry Description | -(Entry Amount) | Existing:  [Edit]  | [Cancel]
+        // Category   | Notes                          | Reconciled      | Existing: [Delete] |  [Save]
         //                                             | New: [Add]
 
     Author: Keith D Commiskey (2017-06)
@@ -19,7 +23,8 @@ import Autosuggest from 'react-bootstrap-autosuggest'
 import DateInput from './DateInput'
 import RegisterList from './RegisterList'
 
-import { Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Table, HelpBlock, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap'
+import { Row, Col, Form, FormGroup, ControlLabel, FormControl,
+         Button, Table, HelpBlock, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap'
 
 import * as ACTIONS from '../store/actions'
 
@@ -29,76 +34,72 @@ class RegisterEntryFilledContainer extends React.Component {
     constructor(props) {
         super(props)
 
-        // test whether a new date input falls back to a text input or not
-        let testType = document.createElement('input'),
-            showInputDate
-        testType.type = 'date'
-        showInputDate = testType.type === 'text' ? false : true
+        // Test whether a native date input falls back to a text input (i.e., native date input is not supported)
+        //
+            let testType = document.createElement('input'),
+                showInputDate
+            testType.type = 'date'
+            showInputDate = testType.type === 'text' ? false : true
 
-        const setHistoryBlocker = this.props.yieldRouteHistoryBlock ? this.props.history.block((location, action) => {
-                if (getStorageItem(sessionStorage, 'entryExist')) {
-                    return 'Are you sure you want to leave this page?'
-                }
-            }) : () => undefined
+        // Set page exit warning if a 'previous entry' has been modified
+        // User is prompted with an alert asking if the would like to cancel the edit, or stay on the page.
+        //
+            const setHistoryBlocker = this.props.yieldRouteHistoryBlock ? this.props.history.block((location, action) => {
+                    if (getStorageItem(sessionStorage, 'entryExist')) {
+                        return 'Are you sure you want to leave this page?'
+                    }
+                }) : () => undefined
 
-        this.state = {
-            editId: 0,
-            // unblock: this.props.history.block('Are you sure you want to leave this page?')
-            unblock: setHistoryBlocker,
-            months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-            fieldRequired: {
-                date: true,
-                description: true,
-                amount: true,
-                type: true,
-                category: true,
-                notes: false,
-                reconciled: false
-            },
-            showInputDate: showInputDate,
-            descriptionLength: 150,
-            typeLength: 25,
-            categoryLength: 50,
-            notesLength: 150,
-            formValid: null,
-            showModal: false,
+        // Set each registry entry with its own state
+        //
+            this.state = {
+                // unblock: this.props.history.block('Are you sure you want to leave this page?')
+                unblock: setHistoryBlocker,
+                months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                fieldRequired: {
+                    date: true,
+                    description: true,
+                    amount: true,
+                    type: true,
+                    category: true,
+                    notes: false,
+                    reconciled: false
+                },
+                showInputDate: showInputDate,
+                descriptionLength: 150,
+                typeLength: 25,
+                categoryLength: 50,
+                notesLength: 150,
 
-            id: 0,
-            date: '',
-            amount: 0,
-            description: '',
-            type: '',
-            category: '',
-            notes: '',
-            reconciled: '',
+                amountError: '',
+                descriptionError: '',
+                typeError: '',
+                categoryError: '',
+                notesError: '',
 
-            idError: '',
-            dateError: '',
-            amountError: '',
-            descriptionError: '',
-            typeError: '',
-            categoryError: '',
-            notesError: '',
-            reconciledError: '',
+                amountValid: null,
+                descriptionValid: null,
+                typeValid: null,
+                categoryValid: null,
+                notesValid: null
+            }
 
-            idValid: null,
-            dateValid: null,
-            amountValid: null,
-            descriptionValid: null,
-            typeValid: null,
-            categoryValid: null,
-            notesValid: null,
-            reconciledValid: null
-        }
-        this.validateForm = this.validateForm.bind(this)
-        this.closeTypes = this.closeTypes.bind(this)
-        this.deleteListItem = this.deleteListItem.bind(this)
-        // this.handleChangeTypeahead = this.handleChangeTypeahead.bind(this)
+        // Bind component methods
+        //
+            this.validateForm = this.validateForm.bind(this)
+            this.closeTypes = this.closeTypes.bind(this)
+            this.deleteListItem = this.deleteListItem.bind(this)
+            this.deleteEntry = this.deleteEntry.bind(this)
+            this.editEntry = this.editEntry.bind(this)
+            this.editEntryCancel = this.editEntryCancel.bind(this)
     }
     componentWillUnmount() {
         this.props.actions.clearFormExist()
         deleteStorageItem(sessionStorage, 'entryExist')
         this.state.unblock()
+    }
+    componentWillMount() {
+        deleteStorageItem(sessionStorage, 'entryExist')
     }
     handleStorageSet(field, val, eid) {
         const entryOrig = this.props.entry
@@ -134,7 +135,7 @@ class RegisterEntryFilledContainer extends React.Component {
         if (whichField === 'amount') {
             newVal = formatFixed2(e.target.value)
         }
-        this.handleStorageSet(whichField, newVal, e.target.getAttribute('data-id'))
+        this.handleStorageSet(whichField, newVal, this.props.entry.id)
     }
     handleChangeTypeaheadType(e) {
         this.handleChangeTypeahead(e, 'type')
@@ -153,31 +154,26 @@ class RegisterEntryFilledContainer extends React.Component {
             return false
         }
 
-        this.handleStorageSet(eField, eValue, this.props.entryId)
+        this.handleStorageSet(eField, eValue, this.props.entry.id)
 
         if (!this.props[eKeyPlural].includes(eValue)) {
 
             const oldState = this.props.oldState,
                   newTypesArray = this.props[eKeyPlural].concat(eValue)
 
-// @TODO - Check for adding quotes, apostrophes, <>
-        // Add 'Remove' for previous entries
-        // Disable previous entries - set disabled CSS with no input borders
-        // Add "TOTAL" based on calculation of all previous entries (+ reconciled)
-        // Add "NetTotal" based on calc (- reconciled)
-        // Add 'Export' option (just save the localStorage to a local JSON file)
-
             this.props.actions.updateStateField(eKeyPlural, newTypesArray)
             setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...oldState, [eKeyPlural]: newTypesArray}))
         }
     }
     handleChangeCheckbox = e => {
-        this.handleStorageSet(e.target.name, e.target.checked ? true : false, e.target.getAttribute('data-id'))
+        this.handleStorageSet(e.target.name, e.target.checked ? true : false, this.props.entry.id)
     }
     showButton(id) {
         return <Button type="submit"><span>{id === 0 ? 'Add' : 'Edit'}</span></Button>
     }
     validateForm(form) {
+
+        // @TODO: Abstract (to what? How?)
 
         const errors = {},
               formatCurrency = /^(?:-)?\d+(?:\.\d{1,2})?$/,
@@ -207,34 +203,15 @@ class RegisterEntryFilledContainer extends React.Component {
 
             // success, warning, error, null
 
-        this.setState({ formValid: null })
-
         let entryFieldText = '',
             errorReturn
 
-        // I was going to extrapolate the {for} loop below into its own function or component or whatever it would be best as
-        // But couldn't figure out how... thinking I will need to pass back an object (or two) allowing the {setState}s
-        // Or calling them as HOF from here (the parent) - but that's a lot of HOF calls.
-            // My beginning coding attempts... no idea which is the correct/best/most logical way to take this.
-            // -----
-            // import ValidationSwitch from './ValidationSwitch'
-            // const
-            // <ValidationSwitch key={key} val={val} form={form} />
-            // errorReturn = this.validateCaseFn(val, key, lengths[key], entryFieldText, this.state.fieldRequired[key])
-            // const { key, val, form } = this.props
-
-        for (let [key, val] of Object.entries( JSON.parse(form) )) {
+        for (let [key, val] of Object.entries( form )) {
             switch (key) {
                 case 'id':
                     // console.log('id', val, typeof(val))
                     if (typeof(val) !== 'number' || (typeof(val) === 'number' && val < 0)) {
                         errors[key] = '[' + key + '] should be a Whole Number'
-                        this.setState({ formValid: 'error' })
-                        this.setState({ idValid: 'error' })
-                        this.setState({ idError: errors[key] })
-                    } else {
-                        this.setState({ idValid: null })
-                        this.setState({ idError: '' })
                     }
                     break
                 case 'amount':
@@ -245,30 +222,23 @@ class RegisterEntryFilledContainer extends React.Component {
                             this.setState({ amountError: '' })
                         } else {
                             errors[key] = '[' + key + '] should exist and be a 0-, 1-, or 2-digit decimal'
-                            this.setState({ formValid: 'error' })
                             this.setState({ amountValid: 'error' })
                             this.setState({ amountError: errors[key] })
                         }
                     } else {
                         errors[key] = '[' + key + '] should be a populated String'
-                        this.setState({ formValid: 'error' })
                         this.setState({ amountValid: 'error' })
                         this.setState({ amountError: errors[key] })
                     }
                     break
                 case 'date':
-                    if (typeof(val) === 'string' && val.length === 8 && val.match(formatDateStripped)) {
+                    if (typeof(val) !== 'string' || val.length !== 8 || !val.match(formatDateStripped)) {
+                        errors[key] = 'The [' + key + '] field should be an 8-digit number representing yyyymmdd'
+                    } else {
                         // This should be validated further where:
                             // yyyy should be a number between 1900 and 9999
                             // mm   should be a 2-digit string (number) and should represent a float from 1-12
                             // dd   should be a 2-digit string (number) and should represent a float from 1-31
-                        this.setState({ dateValid: null })
-                        this.setState({ dateError: '' })
-                    } else {
-                        errors[key] = 'The [' + key + '] field should be an 8-digit number representing yyyymmdd'
-                        this.setState({ formValid: 'error' })
-                        this.setState({ dateValid: 'error' })
-                        this.setState({ dateError: errors[key] })
                     }
                     break
                 case 'description':
@@ -313,49 +283,77 @@ class RegisterEntryFilledContainer extends React.Component {
             this.setState({ [entryError]: '' })
         } else if (fieldRequired) {
             errorReturn = '[' + key + '] should contain no more than ' + maxKeyLength + ' characters.'
-            this.setState({ formValid: 'error' })
             this.setState({ [entryValid]: 'error' })
             this.setState({ [entryError]: errorReturn })
         }
 
         return errorReturn
     }
+    getNextId = () => {
+        let registryLength = this.props.registry.length,
+            maxId
+        if (registryLength > 1) {
+            maxId = this.props.registry.reduce( (acc, cur) => (acc.id > cur.id) ? acc : cur ).id
+        } else {
+            maxId = registryLength
+        }
+        return maxId + 1
+    }
     handleSubmit(e) {
         e.preventDefault()
 
         // Validate Form
-        const whichForm = parseFloat(e.target.getAttribute('data-id').substr(5)),       // [form-0] 0 == New entry | >0 == Existing entry
-              whichState = (whichForm > 0) ? 'entryExist' : 'entry',                    // sessionStorage
-              formVal = this.validateForm( getStorageItem(sessionStorage, whichState) ) // true|false
+        const thisEntryId = this.props.entry.id,                        // 0 == New entry | >0 == Existing entry
+              whichState = (thisEntryId > 0) ? 'entryExist' : 'entry',  // sessionStorage
+              getEntry = getStorageItem(sessionStorage, whichState)     // get storage (if exists)
 
-        if (formVal) {
-            if (whichForm === 0) {
+        if (getEntry) {
+            const thisEntry = JSON.parse(getEntry)
 
-                console.log('ADD submitted', getStorageItem(sessionStorage, 'entry'))
+            if (this.validateForm( thisEntry )) {
+                if (thisEntryId === 0) {                                // New Entry
 
-                const oldState = this.props.oldState,
-                      newRegistryEntry = JSON.parse(getStorageItem(sessionStorage, 'entry')),
-                      oldRegistry = this.props.registry
+                    const nextId = this.getNextId(),
+                          newRegistryEntry = JSON.parse(getStorageItem(sessionStorage, 'entry')),
+                          newEntryIdUpdate = {...newRegistryEntry, id: nextId },
+                          newRegistry = this.props.registry.concat([newEntryIdUpdate])
 
-                let newRegistry;
+                        // if (parseFloat(eid) === 0) { // 0 = Current (New) Entry
+                        //     whichStorage = 'entry',
+                        //     whichState = 'currentEntry'
+                        // if (parseFloat(eid) > 0) {   // >0 = Existing Entry
+                        //     whichStorage = 'entryExist'
+                        //     whichState = 'existingEntry'
 
-                      newRegistry = oldRegistry.concat([newRegistryEntry])
+                    this.props.actions.addToStateArray('registry', newEntryIdUpdate)
+                    setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...this.props.oldState, registry: newRegistry }))
 
-                    // if (parseFloat(eid) === 0) { // 0 = Current (New) Entry
-                    //     whichStorage = 'entry',
-                    //     whichState = 'currentEntry'
-                    // if (parseFloat(eid) > 0) {   // >0 = Existing Entry
-                    //     whichStorage = 'entryExist'
-                    //     whichState = 'existingEntry'
+                    console.log('ADD submitted', thisEntry)
 
-                this.props.actions.addToStateArray('registry', newRegistryEntry) // newRegistryEntry = {}
-                setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...oldState, registry: newRegistry }))
+                } else {                                                // Existing Entry - Update Record
+                    const newEntryIdUpdate = {...thisEntry, id: thisEntryId},
+                          newRegistry = this.props.registry.map((entry, index) => {
+                                if (entry.id === thisEntryId) {
+                                    return Object.assign({}, entry, newEntryIdUpdate)
+                                }
+                                return entry
+                            })
 
+                    this.props.actions.updateRegistryEntry(newEntryIdUpdate)    // Update State: Redux
+                                                                                // Update localStorage
+                    setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...this.props.oldState, registry: newRegistry }))
+                    this.props.actions.clearFormExist()                         // Clears state.existingEntry -- Not sure I'm using this
+                    deleteStorageItem(sessionStorage, 'entryExist')             // Delete sessionStorage
+                    this.editEntryCancel()                                      // Set editId:0 -- Should reset 'edit existing' form
+
+                    console.log('EDIT submitted', thisEntry)
+                }
             } else {
-                console.log('EDIT submitted', getStorageItem(sessionStorage, 'entryExist'))
+                console.log('Errors were found - Error states have been set - do NOTHING')
             }
         } else {
-            console.log('errors were found - do NOTHING')
+            console.log('Nothing was changed - Close Edits')
+            this.editEntryCancel()
         }
     }
     handleChangeDate(newDate) {
@@ -385,11 +383,11 @@ class RegisterEntryFilledContainer extends React.Component {
         this.refs.overCats.hide()
         this.setState({ showModal: false })
     }
-    deleteListItem(e) {
+    deleteListItem(paramObj) {
         // item = selected list item (types or categorys)
         // list = Array listing of 'types' and 'categorys'
 
-        const { item, list } = e,
+        const { item, list } = paramObj,
               entryListItem = list.substr(0, list.length-1),
               currentListItem = this.props.entry[entryListItem],
               eid = this.props.entry.id
@@ -407,11 +405,27 @@ class RegisterEntryFilledContainer extends React.Component {
             setStorageItem(localStorage, this.props.loggedInId, JSON.stringify({...this.props.oldState, [list]: newTypesArray}))
         }
     }
+    deleteEntry(e) {
+        console.log('[deleteEntry]', this.props.entry.id, e)
+        this.props.deleteEntry({entryId: this.props.entry.id})
+    }
+    editEntry(e) {
+        console.log('[editEntry]', this.props.entry.id, e)
+        this.props.editEntry({entryId: this.props.entry.id})
+    }
+    editEntryCancel() {
+        console.log('[editEntryCancel] No params')
+        this.props.editEntryCancel()
+    }
     render() {
         const propsObj = {
             'data-id': this.props.entry.id,
             required: true
-        }
+        },
+        isEdit = (this.props.yieldRouteHistoryBlock || (this.props.editId === this.props.entry.id)),
+        entryExistEdit = getStorageItem(sessionStorage, 'entryExist'),
+        entryEdit = entryExistEdit && (JSON.parse(entryExistEdit).id === this.props.entry.id) ? JSON.parse(entryExistEdit) : this.props.entry
+
         const showTypesClick = (
             <Popover id="popover-trigger-click">
                 <Table striped hover>
@@ -422,14 +436,14 @@ class RegisterEntryFilledContainer extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.props.types.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.deleteListItem} listItem={item} listList="types" /> ) }
+                        { this.props.types.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.props.actions.deleteListItem} listItem={item} listList="types" /> ) }
                     </tbody>
                 </Table>
             </Popover>
         )
         const typesButton = (
             <OverlayTrigger ref="overTypes" onHide={this.close} rootClose={true} trigger="click" placement="right" overlay={showTypesClick}>
-                <Button disabled={!this.props.yieldRouteHistoryBlock}><Glyphicon glyph="th-list" /></Button>
+                <Button disabled={!isEdit}><Glyphicon glyph="th-list" /></Button>
             </OverlayTrigger>
         )
         const showCatsClick = (
@@ -442,43 +456,69 @@ class RegisterEntryFilledContainer extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.props.categorys.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.deleteListItem} listItem={item} listList="categorys" /> ) }
+                        { this.props.categorys.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.props.actions.deleteListItem} listItem={item} listList="categorys" /> ) }
                     </tbody>
                 </Table>
             </Popover>
         )
         const catsButton = (
             <OverlayTrigger ref="overCats" onHide={this.close} rootClose={true} trigger="click" placement="left" overlay={showCatsClick}>
-                <Button disabled={!this.props.yieldRouteHistoryBlock}><Glyphicon glyph="th-list" /></Button>
+                <Button disabled={!isEdit}><Glyphicon glyph="th-list" /></Button>
             </OverlayTrigger>
         )
-        // console.log('[this.state.fieldRequired]', typeof(this.state.fieldRequired['date']), this.state.fieldRequired['date'])
+
+        // col[nn] - If 'new entry' form, don't show extra column on end of <Row> for Edit/Delete buttons (only for previous entries)
+        // [yieldRouteHistoryBlock] === 'new entry' form
+        //
+        const col67 = !this.props.yieldRouteHistoryBlock ? 6 : 7,
+              col34 = !this.props.yieldRouteHistoryBlock ? 3 : 4,
+              col56 = !this.props.yieldRouteHistoryBlock ? 5 : 6,
+              col1012 = !this.props.yieldRouteHistoryBlock ? 10 : 12,
+              colCurrentHidden = {
+                xsHidden: this.props.yieldRouteHistoryBlock,
+                smHidden: this.props.yieldRouteHistoryBlock,
+                mdHidden: this.props.yieldRouteHistoryBlock,
+                lgHidden: this.props.yieldRouteHistoryBlock
+              },
+              xsColConfig = {
+                xsHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && false),
+                smHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && true),
+                mdHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && true),
+                lgHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && true)
+              },
+              smColConfig = {
+                xsHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && true),
+                smHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && false),
+                mdHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && false),
+                lgHidden: this.props.yieldRouteHistoryBlock || (!this.props.yieldRouteHistoryBlock && false)
+              }
+
         return (
             <div className={!this.props.yieldRouteHistoryBlock ? "entry-previous" : "entry-current"}>
-                <Form onSubmit={this.handleSubmit.bind(this)} data-id={'form-' + this.props.entry.id} inline>
-                    <Row className="show-grid">
-                        <Col className="field-col" xs={6} sm={3}>
+                <Form onSubmit={this.handleSubmit.bind(this)} data-id={'form-' + entryEdit.id} inline>
+                    <Row className={`show-grid ${!isEdit && 'dotted-bottom'}`}>
+                        <Col className="field-col" xs={col56} sm={3}>
                             <DateInput
-                                entryId={this.props.entry.id}
+                                entryId={entryEdit.id}
                                 showInputDate={this.state.showInputDate}
                                 handleChangeDate={this.handleChangeDate.bind(this)}
                                 months={this.state.months}
-                                date={this.props.entry.date}
+                                date={entryEdit.date}
                                 days={this.populateDays()}
-                                daySelect={this.props.entry.date.substr(6, 2)}
-                                monthSelect={this.props.entry.date.substr(4, 2)}
-                                yearSelect={this.props.entry.date.substr(0, 4)}
-                                fullDateYearLeft={this.props.entry.date.substr(0, 4) + '-' + this.props.entry.date.substr(4, 2) + '-' + this.props.entry.date.substr(6, 2)}
+                                daySelect={entryEdit.date.substr(6, 2)}
+                                monthSelect={entryEdit.date.substr(4, 2)}
+                                yearSelect={entryEdit.date.substr(0, 4)}
+                                fullDateYearLeft={entryEdit.date.substr(0, 4) + '-' + entryEdit.date.substr(4, 2) + '-' + entryEdit.date.substr(6, 2)}
                                 isDateRequired={this.state.fieldRequired['date']}
-                                isDateDisabled={!this.props.yieldRouteHistoryBlock}
+                                isDateDisabled={!isEdit}
                             />
                         </Col>
-                        <Col className="field-col" xs={6} smPush={7} sm={2}>
+                        <Col className="field-col" xs={col56} smPush={col67} sm={2}>
                             <FormGroup
-                                controlId={'field-amount-' + this.props.entry.id}
+                                controlId={'field-amount-' + entryEdit.id}
                                 validationState={this.state.amountValid}
                             >
-                                <ControlLabel srOnly={!this.props.yieldRouteHistoryBlock} bsClass="field-label"><span>Amount:</span></ControlLabel>
+                                <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Amount:</span></ControlLabel>
                                 <span className="amount">
                                     { /*
                                         The input type 'number' entry cannot show padded decimals (e.g., 1.00) although data is stored as: '1.00'
@@ -490,54 +530,66 @@ class RegisterEntryFilledContainer extends React.Component {
                                     */ }
                                     <FormControl
                                         {...propsObj}
-                                        disabled={!this.props.yieldRouteHistoryBlock}
+                                        disabled={!isEdit}
                                         required={this.state.fieldRequired['amount']}
                                         type="number"
                                         name="amount"
                                         step="0.01"
                                         onChange={this.handleChange.bind(this)}
-                                        value={this.props.entry.amount}
+                                        value={entryEdit.amount}
                                     />
                                 </span>
                                 <FormControl.Feedback />
                                 {this.state.amountValid && <HelpBlock>{this.state.amountError}</HelpBlock>}
                             </FormGroup>
                         </Col>
-                        <Col className="field-col" xs={12} smPull={2} sm={7}>
+                        <Col className="entryButtons" xs={2} sm={0} {...colCurrentHidden} {...xsColConfig}>
+                            <Button className={isEdit ? 'hide' : 'button-edit'} bsSize="small" onClick={this.editEntry}>Edit</Button>
+                            <span><br/><Button className={isEdit ? 'button-cancel' : 'hide'} bsSize="xsmall" onClick={this.editEntryCancel}>Cancel</Button></span>
+                        </Col>
+                        <Col className="field-col" xs={col1012} smPull={2} sm={col67}>
                             <FormGroup
-                                controlId={'field-description-' + this.props.entry.id}
+                                controlId={'field-description-' + entryEdit.id}
                                 validationState={this.state.descriptionValid}
                             >
-                                <ControlLabel srOnly={!this.props.yieldRouteHistoryBlock} bsClass="field-label"><span>Description:</span></ControlLabel>
+                                <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Description:</span></ControlLabel>
                                 <FormControl
                                     type="text"
                                     name="description"
                                     {...propsObj}
-                                    disabled={!this.props.yieldRouteHistoryBlock}
+                                    disabled={!isEdit}
                                     required={this.state.fieldRequired['description']}
                                     onChange={this.handleChange.bind(this)}
-                                    value={this.props.entry.description}
+                                    value={entryEdit.description}
                                     placeholder="Enter text"
                                 />
                                 <FormControl.Feedback />
                                 {this.state.descriptionValid && <HelpBlock>{this.state.descriptionError}</HelpBlock>}
                             </FormGroup>
                         </Col>
+                        <Col className="entryButtons" xs={0} sm={1} {...colCurrentHidden} {...smColConfig}>
+                            <Button className={isEdit ? 'hide' : 'button-edit'} bsSize="small" onClick={this.editEntry}>Edit</Button>
+                            <span><br/><Button className={isEdit ? 'button-cancel' : 'hide'} bsSize="xsmall" onClick={this.editEntryCancel}>Cancel</Button></span>
+                        </Col>
+                        <Col className="entryButtons" xs={2} sm={0} {...colCurrentHidden} {...xsColConfig}>
+                            <Button className={isEdit ? 'hide' : 'button-remove'} bsSize="xsmall" onClick={this.deleteEntry}><Glyphicon glyph="remove" /></Button>
+                            <Button className={isEdit ? 'btn btn-primary button-save' : 'hide'} bsSize="small" type="submit">Save</Button>
+                        </Col>
                     </Row>
                     <Row className="show-grid clearfix">
                         <Col className="field-col" xs={6} sm={3}>
                             <FormGroup
-                                controlId={'field-type-' + this.props.entry.id}
+                                controlId={'field-type-' + entryEdit.id}
                                 validationState={this.state.typeValid}
                             >
-                                <ControlLabel srOnly={!this.props.yieldRouteHistoryBlock} bsClass="field-label"><span>Type:</span></ControlLabel>
+                                <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Type:</span></ControlLabel>
                                 <Autosuggest
                                     datalist={this.props.types}
                                     onBlur={this.handleChangeTypeaheadType.bind(this)}
-                                    value={this.props.entry.type}
-                                    name={"type-" + this.props.entry.id}
+                                    value={entryEdit.type}
+                                    name={"type-" + entryEdit.id}
                                     placeholder="TX Type..."
-                                    disabled={!this.props.yieldRouteHistoryBlock}
+                                    disabled={!isEdit}
                                     required={this.state.fieldRequired['type']}
                                     buttonAfter={typesButton}
                                 />
@@ -547,17 +599,17 @@ class RegisterEntryFilledContainer extends React.Component {
                         </Col>
                         <Col className="field-col" xs={6} sm={4}>
                             <FormGroup
-                                controlId={'field-category-' + this.props.entry.id}
+                                controlId={'field-category-' + entryEdit.id}
                                 validationState={this.state.categoryValid}
                             >
-                                <ControlLabel srOnly={!this.props.yieldRouteHistoryBlock} bsClass="field-label"><span>Category:</span></ControlLabel>
+                                <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Category:</span></ControlLabel>
                                 <Autosuggest
                                     datalist={this.props.categorys}
                                     onBlur={this.handleChangeTypeaheadCat.bind(this)}
-                                    value={this.props.entry.category}
-                                    name={"category-" + this.props.entry.id}
+                                    value={entryEdit.category}
+                                    name={"category-" + entryEdit.id}
                                     placeholder="Category..."
-                                    disabled={!this.props.yieldRouteHistoryBlock}
+                                    disabled={!isEdit}
                                     required={this.state.fieldRequired['category']}
                                     buttonAfter={catsButton}
                                 />
@@ -565,43 +617,47 @@ class RegisterEntryFilledContainer extends React.Component {
                                 {this.state.categoryValid && <HelpBlock>{this.state.categoryError}</HelpBlock>}
                             </FormGroup>
                         </Col>
-                        <Col className="field-col" xs={11} sm={4}>
+                        <Col className="field-col" xs={10} sm={col34}>
                             <FormGroup
-                                controlId={'field-notes-' + this.props.entry.id}
+                                controlId={'field-notes-' + entryEdit.id}
                                 validationState={this.state.notesValid}
                             >
-                                <ControlLabel srOnly={!this.props.yieldRouteHistoryBlock} bsClass="field-label"><span>Memo:</span></ControlLabel>
+                                <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Memo:</span></ControlLabel>
                                 <FormControl
                                     type="text"
                                     name="notes"
                                     {...propsObj}
-                                    disabled={!this.props.yieldRouteHistoryBlock}
+                                    disabled={!isEdit}
                                     required={this.state.fieldRequired['notes']}
                                     onChange={this.handleChange.bind(this)}
-                                    value={this.props.entry.notes}
+                                    value={entryEdit.notes}
                                     placeholder={!this.props.yieldRouteHistoryBlock ? '' : 'Memo...'}
                                 />
                                 <FormControl.Feedback />
                                 {this.state.notesValid && <HelpBlock>{this.state.notesError}</HelpBlock>}
                             </FormGroup>
                         </Col>
-                        <Col className="field-col" xs={1} sm={1}>
-                            <ControlLabel htmlFor={'recond-' + this.props.entry.id} srOnly={!this.props.yieldRouteHistoryBlock}><span>Recon'd:</span></ControlLabel>
+                        <Col className="field-col text-center" xs={2} sm={1}>
+                            <ControlLabel htmlFor={'recond-' + entryEdit.id} srOnly={!isEdit}><span>Recon'd:</span></ControlLabel>
                                 <input
                                     {...propsObj}
-                                    id={'recond-' + this.props.entry.id}
+                                    id={'recond-' + entryEdit.id}
                                     name="reconciled"
                                     onChange={this.handleChangeCheckbox.bind(this)}
                                     type="checkbox"
-                                    checked={this.props.entry.reconciled}
-                                    disabled={!this.props.yieldRouteHistoryBlock}
+                                    checked={entryEdit.reconciled}
+                                    disabled={!isEdit}
                                     required={this.state.fieldRequired['reconciled']}
                                 />
+                        </Col>
+                        <Col className="entryButtons" xs={0} sm={1} {...colCurrentHidden} {...smColConfig}>
+                            <Button className={isEdit ? 'hide' : 'button-remove'} bsSize="xsmall" onClick={this.deleteEntry}><Glyphicon glyph="remove" /></Button>
+                            <Button className={isEdit ? 'btn btn-primary button-save' : 'hide'} bsSize="small" type="submit">Save</Button>
                         </Col>
                     </Row>
                     <Row className="show-grid clearfix">
                         <Col xs={12} className="text-right">
-                            <input type="hidden" value={this.props.entry.id} name="entry-id" required />
+                            <input type="hidden" value={entryEdit.id} name="entry-id" required />
                             <Button type="submit" disabled={!this.props.yieldRouteHistoryBlock}>Add</Button>
                         </Col>
                     </Row>
@@ -612,8 +668,6 @@ class RegisterEntryFilledContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('state', state)
-    // console.log('state.registry', typeof(state.registry), state.registry)
     return {
         oldState: state,
         loggedInId: state.loggedInId,

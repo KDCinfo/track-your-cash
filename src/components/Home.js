@@ -19,15 +19,8 @@ class Home extends React.Component {
                 <div>
                     <p>
                         Please note, this is a <span className="wip">Work In Progress</span>.<br/>
-                        Approximate completion percentage: 70%
+                        Approximate completion percentage: 85%
                     </p>
-                </div>
-                <div>
-                    <p>High-Level To-Dos:</p>
-                    <ul>
-                        <li>Get checking register 'previous entries' working (15%)</li>
-                        <li>Leftover tweaks and massaging (15%)</li>
-                    </ul>
                 </div>
                 <div>
                     <p>High-Level Completions:</p>
@@ -41,8 +34,10 @@ class Home extends React.Component {
                         <li>Got Login/Create account working with session- and local- Storage</li>
                         <li>Restrict actual check registry page</li>
                         <li className="li-bold">(30% += 50%)</li>
-                        <li>Registry 'add new entry (with client-side validation)'</li>
+                        <li>Registry 'add new' entry (with client-side validation)</li>
                         <li className="li-bold">(20% += 70%)</li>
+                        <li>Registry 'previous entries' update and delete</li>
+                        <li className="li-bold">(15% += 85%)</li>
                     </ul>
                 </div>
             </Well>

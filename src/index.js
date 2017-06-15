@@ -1,4 +1,4 @@
-console.clear() // 'console' object references are removed for prod builds
+console.clear() // 'console' object references are removed in prod builds
 
 import React from 'react'
 import { render } from 'react-dom'
@@ -70,10 +70,10 @@ import ContentFrame from './components/ContentFrame'
     const LoginContainer = () => <ContentFrame><Login inputMessage={inputMessage} /></ContentFrame>
 
     // // // // // // // // // //
-    // [Register.js]
+    // [RegisterRoot.js]
     //
-    import Register from './components/Register'
-    const RegisterContainer = () => <ContentFrame><Register /></ContentFrame>
+    import RegisterRoot from './components/RegisterRoot'
+    const RegisterRootContainer = () => <ContentFrame><RegisterRoot /></ContentFrame>
 
     // // // // // // // // // //
     // [ProjectNotes.js]
@@ -95,10 +95,10 @@ const App = ({ store }) => (
             <Switch>
                 <Route path="/" exact component={HomeContainer} />
                 <Route path="/login" component={LoginContainer} />
-                <Route path="/register" component={RegisterContainer} />
-                <Route path="/about" component={AboutContainer} />
+                <Route path="/register" component={RegisterRootContainer} />
                 <Route path="/readme" component={ProjectNotesContainer} />
                 <Route path="/cra" component={CRAContainer} />
+                <Route path="/about" component={AboutContainer} />
             </Switch>
         </Router>
     </Provider>

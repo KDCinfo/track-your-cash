@@ -8,14 +8,34 @@ Track Your Cash is a project I am in the process of creating to get a better und
 
 [Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
 
+## Tech Stack
+
+Working on this project provided me a more in-depth look into
+  - React (15.5.4)
+  - React-Router 4
+  - Redux state management
+  - Local component state
+  - Props and HOCs/HOFs
+  - Client-side localStorage
+  - Client-side sessionStorage
+
+My API endpoint of personal choice is still Laravel (PHP), but I did everyting with client-side local storage on this project.
+(My professional choice is whatever the Back-End Engineers are comfortable and good with -- Front-End should have (little to) no dependence on a back-end tech stack.)
+
 ## Work In Progress
 
-Approximate completion percentage: 70%
+Approximate completion percentage: 85%
 
 ### High-Level To-Dos:
 
-  - Get checking register 'previous entries' working (15%)
   - Leftover tweaks and massaging (15%)
+
+    - Add "TOTAL" based on calculation of all previous entries (+ reconciled)
+    - Add "NetTotal" based on calc (- reconciled)
+    - Add sorting on Previous Entries
+    - Add filtering on Previous Entries
+    - Add 'Export' option (just save the localStorage to a local JSON file)
+    - Add link to delete account (delete localStorage)
 
 ### High-Level Completions:
 
@@ -63,6 +83,14 @@ Approximate completion percentage: 70%
       - Created their own little 'delete' pop-overs (using a common component, ofc).
 
   - Got register 'previous entries' form laid out
+
+**(<=85%)**
+  - Got checking register 'previous entries' working
+    - Added 'Delete' for previous entries
+    - Added 'Update' for previous entries (can edit/update one previous entry at a time)
+      - Set 'disabled' to false for active existing entry
+      - 'Edit' button replaced with 'Update' button.
+      - 'Delete' button replaced with 'Cancel' button.
 
 ## Notes and Considerations
 
@@ -168,15 +196,18 @@ Provided fallback for browser's that don't support the native date input field t
 
 ##### Got register 'previous entries' form laid out
 
+  - Disabled all 'previous entry' inputs
+  - Set disabled CSS with no input borders
+
 --------------------------------------------------
 
-  - @TODO - Edit previous (existing) entries (can edit/update one previous entry at a time)
+### 2017-06-14 : Wed
 
-    - Set 'disabled' to false for active existing entry
-    - 'Edit' button replaced with 'Update' button.
-    - 'delete' button replaced with 'Cancel' button.
+#### QA (a little manual testing):
 
-  - @TODO - Add link for how to clear local storage
+Checked for adding quotes, apostrophes, and <script> tags
+
+Checking register 'previous entries' can now be updated or deleted.
 `
 
 export default myMarkR

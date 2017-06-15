@@ -54,9 +54,9 @@ This 'Project Notes' section is \`coded in Markdown\` (just wanted to see that I
 
 ### Content - Registry
 \`\`\`
-  Entry Date | Entry Description | -(Entry Amount) |  [Edit]  | [Update]
+  Entry Date | Entry Description | -(Entry Amount) |  [Edit]  | [Cancel]
 
-  Entry Type | Category  | Notes |    Reconciled   | [Delete] | [Cancel]
+  Entry Type | Category  | Notes |    Reconciled   | [Delete] |  [Save]
 
                                  |     Add Entry
 \`\`\`
