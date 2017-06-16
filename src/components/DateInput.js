@@ -13,6 +13,41 @@
             <select name="month" />
             <select name="day" />
 
+    Features
+
+        Auto-detects native date field support
+        Auto-adjusts number of days available based on year/month input
+
+    Expected data input:
+
+        this.props.entryId                   // [int] >= 0 | Used for: IDs - field-date- field-inputYear- field-inputMonth- field-inputDay-
+        this.props.showInputDate             // [bool] true|false | Used for: Show native date input (t) or individual y/m/d selectors (f)
+        this.props.handleChangeDate(newDate) // yyyymmdd | A callback function that should handle the (newDate); API, local / session, etc.
+        this.props.fullDateYearLeft          // yyyy-mm-dd        | Format used to populate the native date input field
+        this.props.yearSelect                // yyyy              | Non-native fallback support - Year field
+        this.props.monthSelect               // 01 (0-padded)     | Non-native fallback support - Month field
+        this.props.daySelect                 // 01 (0-padded)     | Non-native fallback support - Day field
+        this.props.months                    // ['Jan','Feb',...] | Set in parent to allow for parental 'day' field manipulation.
+        this.props.days                      // [<option>1</option><option>2</option>,...] | An array whose length is based on year & month.
+        this.props.isDateRequired            // [bool] true|false |
+
+    Usage:
+
+        <DateInput
+            entryId={entryEdit.id}
+            showInputDate={this.state.showInputDate}
+            handleChangeDate={this.handleChangeDate.bind(this)}
+            months={this.state.months}
+            date={entryEdit.date}
+            days={this.populateDays()}
+            daySelect={entryEdit.date.substr(6, 2)}
+            monthSelect={entryEdit.date.substr(4, 2)}
+            yearSelect={entryEdit.date.substr(0, 4)}
+            fullDateYearLeft={entryEdit.date.substr(0, 4) + '-' + entryEdit.date.substr(4, 2) + '-' + entryEdit.date.substr(6, 2)}
+            isDateRequired={this.state.fieldRequired['date']}
+            isDateDisabled={!isEdit}
+        />
+
     Dependencies
 
         {   "dependencies": {
@@ -29,16 +64,6 @@
                 "redux": "^3.6.0",
         }    }
 
-    Features
-
-        Auto-detects native date field support
-        Auto-adjusts number of days available based on year/month input
-
-    Files
-
-        Container: RegisterEntryFilled.js
-        Date Input: DateInput.js (you are here)
-
     Author: Keith D Commiskey (2017-06)
 */
 
@@ -47,17 +72,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
-
-// this.props.entryId                      // [int] >= 0 | Used for: IDs - field-date- field-inputYear- field-inputMonth- field-inputDay-
-// this.props.showInputDate                // [bool] true|false | Used for: Show native date input (t) or individual y/m/d selectors (f)
-// this.props.handleChangeDate(newDate)    // yyyymmdd | A callback function that should handle the (newDate); API, local / session, etc.
-// this.props.fullDateYearLeft             // yyyy-mm-dd        | Format used to populate the native date input field
-// this.props.yearSelect                   // yyyy              | Non-native fallback support - Year field
-// this.props.monthSelect                  // 01 (0-padded)     | Non-native fallback support - Month field
-// this.props.daySelect                    // 01 (0-padded)     | Non-native fallback support - Day field
-// this.props.months                       // ['Jan','Feb',...] | Set in parent to allow for parental 'day' field manipulation.
-// this.props.days                         // [<option>1</option><option>2</option>,...] | An array whose length is based on year & month.
-// this.props.isDateRequired               // [bool] true|false |
 
 class DateInputContainer extends React.Component {
     constructor(props) {
