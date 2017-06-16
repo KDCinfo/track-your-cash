@@ -86,8 +86,8 @@ Completion percentage: 100%
       - 'Delete' button replaced with 'Cancel' button.
 
 **(<=90%)**
-  - Add 'Filtering' and 'Sorting'
-  - Clear 'New Entry' form after adding to registry
+  - Added 'Filtering' and 'Sorting'
+  - Cleared 'New Entry' form after adding to registry
   - Added a little CSS splash
 
 **(100%)**
@@ -96,6 +96,8 @@ Completion percentage: 100%
   - Added "TOTAL" based on calculation of all previous entries
   - Added "Cleared" showing only reconciled
   - Added button to delete account (delete everything and logout)
+  - Added button to export account details
+  - Multiple browser sanity testing
 
 ## Notes and Considerations
 
@@ -256,9 +258,24 @@ Added a little color and contrast to the register panels.
 
   - Show total of entries matching the filter box.
 
+##### "Export Account"
+
+  - Saves stored account data to a local JSON file.
+
 ##### "Delete Account"
 
   - Delete everything and logout
+
+##### "Sanity Testing"
+
+  - I ran manual checks in the following browsers:
+
+    - Chrome [Version 59.0.3071.104 (Official Build) (64-bit)]
+    - Firefox [53.0.3 (32-bit)]
+    - Microsoft Edge [40.15063.0.0]
+    - Opera [45.0.2552.898 (PGO)]
+
+#### Archive
 
 In completing this project, the following notes were removed from the Home page:
 
