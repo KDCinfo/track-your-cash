@@ -1,4 +1,6 @@
-console.clear() // 'console' object references are removed in prod builds
+if(process.env.NODE_ENV !== 'production') {
+    console.clear() // 'console' object references are removed in prod builds
+}
 
 import React from 'react'
 import { render } from 'react-dom'

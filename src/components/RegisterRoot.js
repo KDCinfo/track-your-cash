@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { Grid, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { Grid, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
 
-import { getStorageItem, setStorageItem } from '../store/functions'
+import { getStorageItem, setStorageItem, deleteStorageItem, formatFixed2 } from '../store/functions'
 
 import RegisterEntryFilled from './RegisterEntryFilled'
+import TextFiltered from './TextFiltered'
 
 import * as ACTIONS from '../store/actions'
 
@@ -37,11 +38,15 @@ class RegisterRootContainer extends React.Component {
             this.props.history.push('/login');
         }
     }
+    componentWillUnmount() {
+        this.setState({ showSortsPopup: false })
+    }
     editEntry(paramObj) {
         this.setState({ editId: paramObj.entryId })
     }
     editEntryCancel() {
         this.setState({ editId: 0 })
+        deleteStorageItem(sessionStorage, 'entryExist')
     }
     deleteEntry(paramObj) {
         this.props.actions.removeFromStateArray(paramObj.entryId)
@@ -68,14 +73,14 @@ class RegisterRootContainer extends React.Component {
          || entry.amount.includes(this.state.filterText)
     }
     setSort(e) {
-        console.log('[setSort]', e.target.name, e.target.value)
+        // console.log('[setSort]', e.target.name, e.target.value)
         this.setState({ [e.target.name]: e.target.value })
     }
     setFilter(e) {
         this.setState({ filterText: e.target.value })
     }
     showSortsPopup() {
-        console.log('[showSortsPopup]', this.state.showSortsPopup)
+        // console.log('[showSortsPopup]', this.state.showSortsPopup)
         if (this.state.showSortsPopup) {
             document.removeEventListener("keyup", this._handleKeyDown)
             this.setState({ showSortsPopup: false })
@@ -85,7 +90,7 @@ class RegisterRootContainer extends React.Component {
         }
     }
     _handleKeyDown(event) {
-        console.log('[_handleKeyDown]', event)
+        // console.log('[_handleKeyDown]', event)
         // const ESCAPE_KEY = 27
         switch( event.keyCode ) {
             case 27:
@@ -95,11 +100,28 @@ class RegisterRootContainer extends React.Component {
                 break;
         }
     }
-    onKeyPress = event => {
-console.log('[onKeyPress]', event, event.key)
-        if(event.key === 'Enter') {
-           // this.setState({ value: event.target.value })
-        }
+    showTotalFiltered = () => {
+        const registryThinned = this.props.registry
+            .filter( this.filterIt )
+            .reduce(
+                (acc, cur) => (parseFloat(cur.amount) + acc), 0
+            )
+        return '$' + formatFixed2(registryThinned)
+    }
+    showTotalReconciled = () => {
+        const registryThinned = this.props.registry
+            .filter( entry => entry.reconciled )
+            .reduce(
+                (acc, cur) => (parseFloat(cur.amount) + acc), 0
+            )
+        return '$' + formatFixed2(registryThinned)
+    }
+    showTotalAll = () => {
+        const registryThinned = this.props.registry
+            .reduce(
+                (acc, cur) => (parseFloat(cur.amount) + acc), 0
+            )
+        return '$' + formatFixed2(registryThinned)
     }
     render() {
         const editEntry = this.editEntry,
@@ -108,34 +130,48 @@ console.log('[onKeyPress]', event, event.key)
 
         const callbacksCurrent = {editEntry, editEntryCancel, deleteEntry},
               orderFields = [
-                  { key: 'date',            value: 'Date' },
-                  { key: 'description',     value: 'Description' },
-                  { key: 'amount',          value: 'Amount' },
-                  { key: 'type',            value: 'Type' },
-                  { key: 'category',        value: 'Category' },
-                  { key: 'notes',           value: 'Memo' },
-                  { key: 'reconciled',      value: 'Reconciled' },
+                { key: 'date',        value: 'Date' },
+                { key: 'description', value: 'Description' },
+                { key: 'amount',      value: 'Amount' },
+                { key: 'type',        value: 'Type' },
+                { key: 'category',    value: 'Category' },
+                { key: 'notes',       value: 'Memo' },
+                { key: 'reconciled',  value: 'Reconciled' },
               ],
               orderDir = [
-                { key: 'ASC',               value: 'Ascending [a-z]' },
-                { key: 'DESC',              value: 'Descending [z-a]' },
+                { key: 'ASC',           value: 'Ascending [a-z]' },
+                { key: 'DESC',          value: 'Descending [z-a]' },
               ]
+
+        const showTotals = {
+            filterText: this.state.filterText,
+            showTotalFiltered: this.showTotalFiltered,
+            showTotalReconciled: this.showTotalReconciled,
+            showTotalAll: this.showTotalAll
+        }
 
         return (
             <div className="register-outer-div">
-                <h1>Your Registry</h1>
+                <div className="entries-title-titlebar">
+                    <h1>Your Registry</h1>
+                </div>
 
-                <h3>New Entry</h3>
+                <div className="entries-current-titlebar">
+                    <h3>New Entry...</h3>
+                    <div className="pull-right title-right-slot">
+                        <TextFiltered {...showTotals} />
+                    </div>
+                </div>
 
                 <Grid bsClass="grid-layout" key={this.props.currentEntry.id} fluid={true}><RegisterEntryFilled {...callbacksCurrent} entry={this.props.currentEntry} editId={this.state.editId} yieldRouteHistoryBlock={true} /></Grid>
 
-                <div className="entries-previous">
-                    <h3 className={this.props.registry.length === 0 ? 'hide' : ''}>Previous Entries</h3>
-                    <div className="pull-right sortFilter">
+                <div className={this.props.registry.length === 0 ? 'hide' : 'entries-previous-titlebar'}>
+                    <h3>Previous Entries</h3>
+                    <div className="pull-right title-right-slot">
 
                         <input type="text" size="10" placeholder="Filter text" onChange={this.setFilter.bind(this)} />
 
-                        <button type="button" className="btn btn-success" onClick={this.showSortsPopup}>Sort Options {this.state.showSortsPopup ? '--' : '+'}</button>
+                        <Button type="button" className="btn btn-success" onClick={this.showSortsPopup}>Sort Options {this.state.showSortsPopup ? '--' : '+'}</Button>
                         <div className={this.state.showSortsPopup ? 'pref preferences' : 'pref preferences-hide'}>
                             <FormGroup>
                                 <ControlLabel><span>Sort Field</span></ControlLabel>
@@ -162,12 +198,15 @@ console.log('[onKeyPress]', event, event.key)
                     </div>
                 </div>
 
-                <div className="show-grid">
+                <div className={this.props.registry.length === 0 ? 'hide' : 'show-grid'}>
                     { this.props.registry.filter( this.filterIt ).sort( this.sortIt ).map( (entry, idx) => <Grid bsClass="grid-layout" key={entry.id} fluid={true}><RegisterEntryFilled {...callbacksCurrent} entry={entry} editId={this.state.editId} yieldRouteHistoryBlock={false} /></Grid> ) }
                 </div>
 
-                <br />
-                <br />
+                <div className={this.props.registry.length === 0 ? 'hide' : 'entries-footer-titlebar'}>
+                    <div className="pull-right title-right-slot">
+                        <TextFiltered {...showTotals} />
+                    </div>
+                </div>
             </div>
         )
     }

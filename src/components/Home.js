@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { NavLink } from 'react-router-dom'
+
 import { Well } from 'react-bootstrap'
 
 import './Home.css'
@@ -9,36 +11,21 @@ class Home extends React.Component {
         return (
             <Well bsSize="large">
                 <div>
-                    <p>Welcome to your very own simplified checking register.</p>
-                    <p>Good for trip expenses (just don't clear your local storage ;)).</p>
-                </div>
-
-                <div>
-                    <p>'Track Your Cash' is a project I am in the process of creating to get a better understanding of how the React ecosystem works.</p>
+                    <h2>Welcome to your very own simplified checking register.</h2>
                 </div>
                 <div>
+                    <p>Your login and entries are saved directly in your browser (like cookies).</p>
+                    <p>Usage Idea: Good for trip expenses (just don't clear your local storage).</p>
                     <p>
-                        Please note, this is a <span className="wip">Work In Progress</span>.<br/>
-                        Approximate completion percentage: 85%
+                        As referenced in the footer, the code for Track Your Cash is <a href="https://github.com/KDCinfo/track-your-cash" target="kdcNewWin">Open Source on GitHub</a>,
+                        so feel free to fork and create your own register.
                     </p>
-                </div>
-                <div>
-                    <p>High-Level Completions:</p>
-                    <ul>
-                        <li>High-level page/component layout and formatting (make somewhat presentable)</li>
-                        <li>Got React Router 4 working (with Redux)</li>
-                        <li>Got Markdown working (3 components; 1 is local-only)</li>
-                        <li>Got project uploaded/shared on GitHub</li>
-                        <li>Got project uploaded/working on Digital Ocean</li>
-                        <li className="li-bold">(20%)</li>
-                        <li>Got Login/Create account working with session- and local- Storage</li>
-                        <li>Restrict actual check registry page</li>
-                        <li className="li-bold">(30% += 50%)</li>
-                        <li>Registry 'add new' entry (with client-side validation)</li>
-                        <li className="li-bold">(20% += 70%)</li>
-                        <li>Registry 'previous entries' update and delete</li>
-                        <li className="li-bold">(15% += 85%)</li>
-                    </ul>
+                    <p>
+                        Project Purpose: Web developers are in a constant state of learning,
+                        and this project is no exception:
+                        I created 'Track Your Cash' to get an understanding of how the React ecosystem works.
+                        You can read more on the <NavLink to="/readme">Project Notes</NavLink> page.
+                    </p>
                 </div>
             </Well>
         )

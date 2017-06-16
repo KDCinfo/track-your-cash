@@ -23,7 +23,7 @@ body {
     border-radius: 1rem;
     box-shadow: .35rem .35rem rgba(100,150,220,.25);
     margin: 1rem auto;
-    max-width: 850px;
+    max-width: 900px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
@@ -37,10 +37,14 @@ body {
     }
     footer {
       border-top: 1px solid rgba(100,150,220,.25);
-      margin: 1rem auto 0;
+      margin: 3rem auto 0;
       padding-top: 1rem;
+      position: relative;
       text-align: center;
     }
+      footer .delete-account {
+        margin-top: 1.5rem;
+      }
 
 /* Register Page - Outer Frame */
   .register-outer-div {
@@ -78,7 +82,7 @@ body {
       box-shadow: inset 0 0 0 rgba(0,0,0,0);
       font-size: small;
       height: 2rem;
-      margin: .75rem 0 .75rem;
+      margin: 0.5rem 0 0;
       padding: 0 1rem;
   }
     .form-inline input[name="amount"].form-control:disabled {
@@ -95,7 +99,7 @@ body {
     }
   .entry-current {
     background-color: rgba(125,125,225,.10);
-    padding: 1rem 0;
+    padding: 1rem 0.5rem;
   }
     .entry-current .show-grid .field-col {
       padding: 0 .3rem;
@@ -117,6 +121,10 @@ body {
     padding-bottom: .25rem;
     background-color: rgba(125,225,125,.15);
   }
+    .entry-previous .form-inline .form-group {
+      margin: 0;
+      /*outline: 1px solid red;*/
+    }
     .entry-previous .show-grid.row {
       margin-left: 0;
       margin-right: 0;
@@ -134,11 +142,12 @@ body {
       -moz-appearance: none;
       -webkit-appearance: none;
     }
-    .entry-previous input[type="number"] {
+    .entry-previous input[type="number"]:disabled {
       -moz-appearance: textfield;
     }
     .entryButtons {
       padding: 0;
+      position: relative;
       text-align: center;
     }
       .entryButtons button.btn-xs {
@@ -157,13 +166,20 @@ body {
       }
       .entryButtons button.button-cancel {
       }
+      .entryButtons .buttons-edit-remove-xs {
+        display: inline-block;
+        height: 4rem;
+        position: absolute;
+          right: 2rem;
+          top: -2rem;
+      }
+        .entryButtons .buttons-edit-remove-xs .button-remove {
+          margin-left: 1rem;
+          margin-top: 0;
+        }
 
 /* Registry Page - Filter and Sort */
 
-  .entries-previous {
-    min-height: 4rem;
-    position: relative;
-  }
     .register-outer-div > .grid-layout-fluid {
       border: 3px solid #2255aa;
       border-radius: 15px;
@@ -178,50 +194,128 @@ body {
 
 /* Sort Options Flyout */
 
-    .sortFilter {
+  .entries-title-titlebar,
+  .entries-current-titlebar,
+  .entries-previous-titlebar,
+  .entries-footer-titlebar {
+    min-height: 4rem;
+    position: relative;
+  }
+    .entries-title-titlebar h3,
+    .entries-current-titlebar h3,
+    .entries-previous-titlebar h3 {
+      margin-bottom: 5px;
+      padding-top: 0.75rem;
+    }
+
+    .text-cleared {
+      color: #777777;
+      display: inline-block;
+      height: 4rem;
+      line-height: 2.5;
+      padding: 0.5rem 0;
+      position: absolute;
+        bottom: 4.5rem;
+        right: 140px;
+      text-align: center;
+      width: 140px;
+      outline: 0px solid red;
+    }
+    .text-total {
+      border-radius: 5px;
+      box-shadow: inset 2px 2px .25em rgba(35,55,225,.5);
+      clear: both;
+      display: inline-block;
+      font-weight: bold;
+      height: 4rem;
+      line-height: 2;
+      padding: 0.5rem 0;
+      position: absolute;
+        bottom: 4.5rem;
+        right: 0;
+      text-align: center;
+      width: 140px;
+      outline: 0px solid red;
+    }
+    .text-filtered {
+      display: inline-block;
+      font-weight: bold;
+      height: 4rem;
+      line-height: 2.5;
+      padding: 0.5rem 0;
+      position: absolute;
+        bottom: 4.5rem;
+        right: 280px;
+      text-align: center;
+      width: 140px;
+      outline: 0px solid red;
+    }
+      .entries-footer-titlebar .text-cleared,
+      .entries-footer-titlebar .text-total,
+      .entries-footer-titlebar .text-filtered {
+        top: 1rem;
+      }
+
+    .entries-footer-titlebar .title-right-slot {
+      margin-right: 1.5rem;
+      position: relative;
+    }
+
+    .title-right-slot {
+      height: 4rem;
       position: absolute;
         right: 0;
         top: 0;
-        z-index: 10;
       text-align: right;
     }
-    .sortFilter input {
-      margin-right: 1rem;
-    }
-    .sortFilter .pref {
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
-        border-radius: 10px;
-      margin: 0;
-      padding: 2rem;
-      text-align: left;
-      width: 250px;
-    }
-    .sortFilter .pref.preferences {
-      height: auto;
-        min-height: 100px;
-      transition: all 0.35s cubic-bezier(.26,.69,.97,.57);
-    }
-      .sortFilter .pref.preferences .form-group {
-        opacity: 1;
+      .title-right-slot input {
+        border-radius: 5px;
+        margin-right: 1rem;
+        padding-left: 0.5rem;
+        width: 15rem;
+      }
+      .title-right-slot button {
+        margin-right: 1.5rem;
+      }
+      .title-right-slot .pref {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+          border-radius: 10px;
+        margin: 0;
+        padding: 2rem;
+        position: absolute;
+          right: 1.5rem;
+          top: 4rem;
+          z-index: 9;
+        text-align: left;
+        width: 200px;
+      }
+      .title-right-slot .pref.preferences {
+        background-color: #ffffff;
+        height: auto;
+          min-height: 100px;
         transition: all 0.35s cubic-bezier(.26,.69,.97,.57);
       }
-    .sortFilter .pref.preferences-hide {
-      border: 0;
-      height: 0;
-        min-height: 0;
-      padding: 0;
-      transition: all 0.5s cubic-bezier(1,0,1,0);
-    }
-      .sortFilter .pref.preferences-hide .form-group,
-      .sortFilter .pref.preferences-hide .form-group label,
-      .sortFilter .pref.preferences-hide .form-group select {
+      .title-right-slot .pref.preferences-hide {
         border: 0;
         height: 0;
-        font-size: 0;
+          min-height: 0;
         padding: 0;
-        transition: all 0.5s cubic-bezier(.25,1,.5,1);
+        transition: all 0.5s cubic-bezier(1,0,1,0);
       }
+        .title-right-slot .pref.preferences-hide .form-group,
+        .title-right-slot .pref.preferences-hide .form-group label,
+        .title-right-slot .pref.preferences-hide .form-group select {
+          border: 0;
+          height: 0;
+          font-size: 0;
+          padding: 0;
+          transition: all 0.5s cubic-bezier(.25,1,.5,1);
+        }
+    .entries-current-titlebar .title-right-slot {
+      margin-right: 1.5rem;
+      top: 3.5rem;
+    }
 
 
 a.active {
@@ -230,7 +324,7 @@ a.active {
 }
 .page-header {
   border-bottom: none;
-  margin-top: 0;
+  margin: 0;
 }
 .well {
   background-image: linear-gradient(to bottom, #F7FFF7 0, #FFFFFF 100%);
@@ -242,8 +336,10 @@ a.active {
 
 /* UTIL */
 
-.no-wrap {
-  display: block;
+.no-wrap,
+.nowrap,
+.noWrap {
+  display: inline-block;
   white-space: nowrap;
 }
 
@@ -259,16 +355,33 @@ a.active {
   text-align: center;
   width: 100%;
 }
+
+/* .NavLink == Top nav bar -> Logout (which is a span; not an <a>) */
 a,
 .NavLink {
   color: #337ab7;
   cursor: pointer;
 }
-  a:hover,
-  .NavLink:hover {
-    color: #23527c;
-    text-decoration: underline;
+
+  header nav {
   }
+    header nav > span {
+      margin-top: 1rem;
+    }
+    header a,
+    header .NavLink {
+      border: 1px solid rgba(100,150,220,.8);
+        border-bottom: none;
+        border-radius: 5px;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+    }
+    a:hover,
+    .NavLink:hover {
+      color: green;
+      text-decoration: underline;
+    }
+
 .li-bold {
   font-weight: bold;
   list-style-type: none;

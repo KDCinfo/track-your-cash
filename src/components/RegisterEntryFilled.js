@@ -23,7 +23,7 @@ import Autosuggest from 'react-bootstrap-autosuggest'
 import DateInput from './DateInput'
 import RegisterList from './RegisterList'
 
-import { Row, Col, Form, FormGroup, ControlLabel, FormControl,
+import { Row, Col, Clearfix, Form, FormGroup, ControlLabel, FormControl,
          Button, Table, HelpBlock, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap'
 
 import * as ACTIONS from '../store/actions'
@@ -403,7 +403,7 @@ class RegisterEntryFilledContainer extends React.Component {
 
             if (currentListItem.toLowerCase() === item.toLowerCase()) {
                 const firstListItem = newTypesArray[0]
-                console.log('[remove from entry]', entryListItem, firstListItem, eid)
+                // console.log('[remove from entry]', entryListItem, firstListItem, eid)
                 this.handleStorageSet(entryListItem, firstListItem, eid) // entryListItem: 'type'|'category' // Deposit // 0|[nnn]
             }
             this.props.actions.inputTyping(list, newTypesArray)
@@ -411,15 +411,15 @@ class RegisterEntryFilledContainer extends React.Component {
         }
     }
     deleteEntry(e) {
-        console.log('[deleteEntry]', this.props.entry.id, e)
+        // console.log('[deleteEntry]', this.props.entry.id, e)
         this.props.deleteEntry({entryId: this.props.entry.id})
     }
     editEntry(e) {
-        console.log('[editEntry]', this.props.entry.id, e)
+        // console.log('[editEntry]', this.props.entry.id, e)
         this.props.editEntry({entryId: this.props.entry.id})
     }
     editEntryCancel() {
-        console.log('[editEntryCancel] No params')
+        // console.log('[editEntryCancel] No params')
         this.props.editEntryCancel()
     }
     render() {
@@ -504,7 +504,6 @@ class RegisterEntryFilledContainer extends React.Component {
                     <Row className={`show-grid ${!isEdit && 'dotted-bottom'}`}>
                         <Col className="field-col" xs={col56} sm={3}>
                             <DateInput
-                                focusNew={(this.props.editId === this.props.entry.id)}
                                 entryId={entryEdit.id}
                                 showInputDate={this.state.showInputDate}
                                 handleChangeDate={this.handleChangeDate.bind(this)}
@@ -550,7 +549,6 @@ class RegisterEntryFilledContainer extends React.Component {
                             </FormGroup>
                         </Col>
                         <Col className="entryButtons" xs={2} sm={0} {...colCurrentHidden} {...xsColConfig}>
-                            <Button className={isEdit ? 'hide' : 'button-edit'} bsSize="small" onClick={this.editEntry}>Edit</Button>
                             <span><br/><Button className={isEdit ? 'button-cancel' : 'hide'} bsSize="xsmall" onClick={this.editEntryCancel}>Cancel</Button></span>
                         </Col>
                         <Col className="field-col" xs={col1012} smPull={2} sm={col67}>
@@ -560,6 +558,7 @@ class RegisterEntryFilledContainer extends React.Component {
                             >
                                 <ControlLabel srOnly={!isEdit} bsClass="field-label"><span>Description:</span></ControlLabel>
                                 <FormControl
+                                    autoFocus={true}
                                     type="text"
                                     name="description"
                                     {...propsObj}
@@ -578,12 +577,15 @@ class RegisterEntryFilledContainer extends React.Component {
                             <span><br/><Button className={isEdit ? 'button-cancel' : 'hide'} bsSize="xsmall" onClick={this.editEntryCancel}>Cancel</Button></span>
                         </Col>
                         <Col className="entryButtons" xs={2} sm={0} {...colCurrentHidden} {...xsColConfig}>
-                            <Button className={isEdit ? 'hide' : 'button-remove'} bsSize="xsmall" onClick={this.deleteEntry}><Glyphicon glyph="remove" /></Button>
+                            <span className="buttons-edit-remove-xs">
+                                <Button className={isEdit ? 'hide' : 'button-edit'} bsSize="small" onClick={this.editEntry}>Edit</Button>&nbsp;
+                                <Button className={isEdit ? 'hide' : 'button-remove'} bsSize="xsmall" onClick={this.deleteEntry}><Glyphicon glyph="remove" /></Button>
+                            </span>
                             <Button className={isEdit ? 'btn btn-primary button-save' : 'hide'} bsSize="small" type="submit">Save</Button>
                         </Col>
                     </Row>
                     <Row className="show-grid clearfix">
-                        <Col className="field-col" xs={6} sm={3}>
+                        <Col className="field-col" xs={4} sm={3}>
                             <FormGroup
                                 controlId={'field-type-' + entryEdit.id}
                                 validationState={this.state.typeValid}
@@ -623,6 +625,7 @@ class RegisterEntryFilledContainer extends React.Component {
                                 {this.state.categoryValid && <HelpBlock>{this.state.categoryError}</HelpBlock>}
                             </FormGroup>
                         </Col>
+                        <Clearfix visibleXsBlock />
                         <Col className="field-col" xs={10} sm={col34}>
                             <FormGroup
                                 controlId={'field-notes-' + entryEdit.id}

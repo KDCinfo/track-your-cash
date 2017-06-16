@@ -47,13 +47,20 @@ class LoginContainer extends React.Component {
                 <Row>
                     <Col xs={12}>
                         <section>
-                            Enter your e-mail below to login or create an account.
+                            <h3>Access Your Register</h3>
+                            <p>Enter your e-mail below to login or create an account.</p>
                         </section>
                     </Col>
                 </Row>
-                <Well bsSize="large">
-                    <LoginForm {...propsObj} />
-                </Well>
+                <Row>
+                    <Col xs={12}>
+                        <main>
+                            <Well bsSize="large">
+                                <LoginForm {...propsObj} />
+                            </Well>
+                        </main>
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs={12}>
                         <aside>

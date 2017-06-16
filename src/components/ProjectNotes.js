@@ -11,36 +11,27 @@ class ProjectNotes extends React.Component {
         return (
             <div>
                 <h2>An Ambitious 1<sup>st</sup> React-based Project</h2>
-                    <p>Working on this project provided me a more in-depth look into React components, state (both local and Redux), and routing... amongst so many other learnables.</p>
+
+                    <p>'Track Your Cash' was a project I created to get an understanding of how the React ecosystem works.</p>
+
+                    <p>This project was bootstrapped using [<a href="https://www.npmjs.com/package/create-react-app" target="kdcNewWin">Create React App</a>].</p>
+
+                <h3>Tech Stack</h3>
+
+                    <p>Working on this project provided me an in-depth look into:</p>
+                    <ul>
+                        <li>React (15.5.4)</li>
+                        <li>React-Router 4</li>
+                        <li>Redux state management</li>
+                        <li>Local component state</li>
+                        <li>Props and HOCs/HOFs</li>
+                        <li>Client-side localStorage</li>
+                        <li>Client-side sessionStorage</li>
+                    </ul>
                     <p>
-                        This project was bootstrapped using [<a href="https://www.npmjs.com/package/create-react-app" target="kdcNewWin">Create React App</a>].
+                        My API endpoint of personal choice is still Laravel (PHP), but I did everyting with client-side local storage on this project.
+                        (My professional choice is whatever the Back-End Engineers are comfortable and good with -- Front-End should have (little to) no dependence on a back-end tech stack.)
                     </p>
-                    <p>
-                        Project Module Versions:
-                    </p>
-                    <dl>
-                        <dt className="highlight">react</dt><dd className="highlight"><code>^15.5.4</code></dd>
-                        <dt>react-dom</dt><dd><code>^15.5.4</code></dd>
-
-                        <dt className="highlight">react-router</dt><dd className="highlight"><code>^4.1.1</code></dd>
-                        <dt>react-router-dom</dt><dd><code>^4.1.1</code></dd>
-
-                        <dt className="highlight">redux</dt><dd className="highlight"><code>^3.6.0</code></dd>
-                        <dt>react-redux</dt><dd><code>^5.0.4</code></dd>
-                        <dt>react-router-redux</dt><dd><code>^4.0.8</code></dd>
-
-                        <dt className="highlight">react-bootstrap</dt><dd className="highlight"><code>^0.30.10</code></dd>
-                        <dt>react-bootstrap-autosuggest</dt><dd><code>^0.5.0</code></dd>
-                        <dt>react-markdown-renderer</dt><dd><code>^1.2.0</code></dd>
-
-                        <dt>prop-types</dt><dd><code>^15.5.8</code></dd>
-                        <dt>history</dt><dd><code>^4.6.1</code></dd>
-
-                        <dt>react-scripts</dt><dd><code>0.9.5</code></dd>
-                        <dt>redux-logger</dt><dd><code>^3.0.6</code></dd>
-                        <dt>redux-thunk</dt><dd><code>^2.2.0</code></dd>
-                    </dl>
-
                 <div className="clear"></div>
 
                 <hr />

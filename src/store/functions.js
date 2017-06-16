@@ -87,16 +87,16 @@ export const localStorageMiddleWare = store => next => action => {
     let result = next(action)
     if(action.type === ACTIONS.LOGIN_NEW) {
         let newState = store.getState()
-        let {registry} = newState
-        let dataObj = {registry}
-console.log('localStorageMiddleWare LOGIN_NEW', newState, dataObj, JSON.stringify(dataObj))
+        // let {registry} = newState
+        // let dataObj = {registry}
+// console.log('localStorageMiddleWare LOGIN_NEW', newState, dataObj, JSON.stringify(dataObj))
         setStorageItem(localStorage, newState.loggedInId, JSON.stringify(newState))
     }
     if(action.type === ACTIONS.SUBMIT_TRANSACTION) {
         let newState = store.getState()
         let {registry} = newState
         let dataObj = {registry}
-console.log('localStorageMiddleWare SUBMIT_TRANSACTION', newState, dataObj, JSON.stringify(dataObj))
+// console.log('localStorageMiddleWare SUBMIT_TRANSACTION', newState, dataObj, JSON.stringify(dataObj))
         setStorageItem(localStorage, newState.loggedInId, JSON.stringify(dataObj))
     }
     return result

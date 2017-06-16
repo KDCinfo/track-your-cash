@@ -1,6 +1,4 @@
-const myMarkR = `# Git README.md - Track Your Cash
-
-Track Your Cash is a project I am in the process of creating to get a better understanding of how the React ecosystem works.
+const myMarkR = `# Git README.md - # Track Your Cash
 
 ## Application URLs
 
@@ -8,32 +6,13 @@ Track Your Cash is a project I am in the process of creating to get a better und
 
 [Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
 
-## Tech Stack
+## Project Progress
 
-Working on this project provided me a more in-depth look into
-  - React (15.5.4)
-  - React-Router 4
-  - Redux state management
-  - Local component state
-  - Props and HOCs/HOFs
-  - Client-side localStorage
-  - Client-side sessionStorage
-
-My API endpoint of personal choice is still Laravel (PHP), but I did everyting with client-side local storage on this project.
-(My professional choice is whatever the Back-End Engineers are comfortable and good with -- Front-End should have (little to) no dependence on a back-end tech stack.)
-
-## Work In Progress
-
-Approximate completion percentage: 90%
+Completion percentage: 100%
 
 ### High-Level To-Dos:
 
-  - Leftover tweaks and massaging (10%)
-
-    - Add "TOTAL" based on calculation of all previous entries (+ reconciled)
-    - Add "NetTotal" based on calc (- reconciled)
-    - Add 'Export' option (just save the localStorage to a local JSON file)
-    - Add link to delete account (delete localStorage)
+  -
 
 ### High-Level Completions:
 
@@ -94,6 +73,13 @@ Approximate completion percentage: 90%
   - Add 'Filtering' and 'Sorting'
   - Clear 'New Entry' form after adding to registry
   - Added a little CSS splash
+
+**(100%)**
+  - Added GitHub link in footer
+  - Formatted navigation menu buttons
+  - Added "TOTAL" based on calculation of all previous entries
+  - Added "Cleared" showing only reconciled
+  - Added button to delete account (delete everything and logout)
 
 ## Notes and Considerations
 
@@ -235,6 +221,62 @@ When adding a new entry, all fields will clear except the date.
 #### CSS Tweaks
 
 Added a little color and contrast to the register panels.
+
+--------------------------------------------------
+
+### 2017-06-16 : Fri
+
+#### IMPLEMENTED:
+
+##### Show Total - "All"
+
+  - Based on calculation of all previous entries.
+
+##### Show Total - "Cleared"
+
+  - Show total of all reconciled entries.
+
+##### Show Total - "Filtered"
+
+  - Show total of entries matching the filter box.
+
+##### "Delete Account"
+
+  - Delete everything and logout
+
+In completing this project, the following notes were removed from the Home page:
+
+\`\`\`
+  <div>
+      <p>High-Level Completions:</p>
+      <ul>
+          <li>High-level page/component layout and formatting (make somewhat presentable)</li>
+          <li>Got React Router 4 working (with Redux)</li>
+          <li>Got Markdown working (3 components; 1 is local-only)</li>
+          <li>Got project uploaded/shared on GitHub</li>
+          <li>Got project uploaded/working on Digital Ocean</li>
+          <li className="li-bold">(20%)</li>
+
+          <li>Got Login/Create account working with session- and local- Storage</li>
+          <li>Restrict actual check registry page</li>
+          <li className="li-bold">(30% += 50%)</li>
+
+          <li>Registry 'add new' entry (with client-side validation)</li>
+          <li className="li-bold">(20% += 70%)</li>
+
+          <li>Registry 'previous entries' update and delete</li>
+          <li className="li-bold">(15% += 85%)</li>
+
+          <li>Added sorting and filtering (and a splash of color)</li>
+          <li className="li-bold">(5% += 90%)</li>
+
+          <li>Added total, cleared total, and filtered total to top and bottom of page.</li>
+          <li>Added 'Delete Account' functionality.</li>
+          <li>Added 'Export' functionality.</li>
+          <li className="li-bold">(10% += 100%)</li>
+      </ul>
+  </div>
+\`\`\`
 `
 
 export default myMarkR
