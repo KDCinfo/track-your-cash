@@ -10,20 +10,23 @@ class Home extends React.Component {
     render() {
         return (
             <Well bsSize="large">
-                <div>
-                    <h2>Welcome to your very own simplified checking register.</h2>
+                <div className="div-home">
+                    <h2>Your Digital Checkbook</h2>
                 </div>
                 <div>
-                    <p>Your login and entries are saved directly in your browser (like cookies).</p>
-                    <p>Usage Idea: Good for trip expenses (just don't clear your local storage).</p>
+                    <p>"Track Your Cash" is an <a href="https://github.com/KDCinfo/track-your-cash" target="kdcNewWin">open-source</a> (free) online checkbook.</p>
+                    <p>All data is saved directly in your browser (like with cookies, only it's called 'local/session storage').</p>
+
+                    <h3>Usage Ideas:</h3>
+                    <ul>
+                        <li>Good for trip expenses (just don't clear your local storage)</li>
+                        <li><a href="https://github.com/KDCinfo/track-your-cash" target="kdcNewWin">Fork the code on GitHub</a> and create your own turbocharged checkbook registry!</li>
+                    </ul>
+
+                    <h3>Project Purpose:</h3>
                     <p>
-                        As referenced in the footer, the code for Track Your Cash is <a href="https://github.com/KDCinfo/track-your-cash" target="kdcNewWin">Open Source on GitHub</a>,
-                        so feel free to fork and create your own register.
-                    </p>
-                    <p>
-                        Project Purpose: Web developers are in a constant state of learning,
-                        and this project is no exception:
-                        I created 'Track Your Cash' to get an understanding of how the React ecosystem works.
+                        Web developers are in a constant state of learning: I created
+                        'Track Your Cash' to get an understanding of how the <a href="https://facebook.github.io/react/" target="kdcNewWin">React</a> ecosystem works.
                         You can read more on the <NavLink to="/readme">Project Notes</NavLink> page.
                     </p>
                 </div>

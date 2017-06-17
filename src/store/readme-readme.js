@@ -1,7 +1,5 @@
 const myMarkR = `# Git README.md - # Track Your Cash
 
-Track Your Cash is a project I created to get a better understanding of how the React ecosystem works.
-
 ## Application URLs
 
 [Demo running on Digital Ocean](http://138.68.225.64)
@@ -98,6 +96,14 @@ Completion percentage: 100%
   - Added button to delete account (delete everything and logout)
   - Added button to export account details
   - Multiple browser sanity testing
+
+**(110%)**
+  - Did some polishing:
+    - Added custom font to 'Home' page.
+    - Added background-image to all pages:
+      - The image is a little stronger on the 'Home' page.
+      - The other pages are dimmed so as not to be too distracting.
+    - Customized top navigational menu buttons and footer link.
 
 ## Notes and Considerations
 
@@ -310,6 +316,16 @@ In completing this project, the following notes were removed from the Home page:
       </ul>
   </div>
 \`\`\`
+
+--------------------------------------------------
+
+### 2017-06-17 : Sat
+
+#### Formatting
+
+  - Prettied up 'Home' page.
+  - Added a background-image to all the pages.
+  - Customized the top navigational menu buttons and footer link.
 `
 
 export default myMarkR

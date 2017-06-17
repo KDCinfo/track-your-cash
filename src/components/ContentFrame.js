@@ -85,9 +85,11 @@ class ContentFrameContainer extends React.Component {
     }
     render() {
         const buttonTitleExport = 'Save your data to a local file you can view on your system.',
-              buttonTitleDelete = 'You will be asked to confirm the removal of all your data.'
+              buttonTitleDelete = 'You will be asked to confirm the removal of all your data.',
+              typeName = 'div-' + this.props.children.type.name.toLowerCase()
+
         return (
-            <div>
+            <div className={typeName}>
                 <header>
                     <PageHeader>
                         Track Your Ca<small><b>$</b></small>h<br/>

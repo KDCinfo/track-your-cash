@@ -1,0 +1,33 @@
+    background-image: url(https://kdcinfo.com/app/register/register_checkbook_homepage.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+check top/bottom white space
+apply white background to nav menu buttons
+
+
+header .NavLink, header a {
+    border: 1px solid rgba(100,150,220,.8);
+    border-bottom: none;
+    border-radius: 5px;
+    display: inline-block;
+    padding: .5rem 1rem;
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 54%,rgba(255,255,255,0) 100%);
+}
+
+http://www.colorzilla.com/gradient-editor/
+
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+54,0+100 */
+background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 54%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 54%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 54%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+
+
+/* http://www.colorzilla.com/gradient-editor/ */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+54,0+100 */
+  background: -moz-linear-gradient();     /* FF3.6-15 */
+  background: -webkit-linear-gradient();  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient();          /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                          /* IE6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient();

@@ -99,6 +99,14 @@ Completion percentage: 100%
   - Added button to export account details
   - Multiple browser sanity testing
 
+**(110%)**
+  - Did some polishing:
+    - Added custom font to 'Home' page.
+    - Added background-image to all pages:
+      - The image is a little stronger on the 'Home' page.
+      - The other pages are dimmed so as not to be too distracting.
+    - Customized top navigational menu buttons and footer link.
+
 ## Notes and Considerations
 
 **Using Local Storage**
@@ -310,3 +318,13 @@ In completing this project, the following notes were removed from the Home page:
       </ul>
   </div>
 ```
+
+--------------------------------------------------
+
+### 2017-06-17 : Sat
+
+#### Formatting
+
+  - Prettied up 'Home' page.
+  - Added a background-image to all the pages.
+  - Customized the top navigational menu buttons and footer link.
