@@ -83,6 +83,10 @@ class ContentFrameContainer extends React.Component {
             linkElement.setAttribute('download', 'data.json')
             linkElement.click()
     }
+    isLoggedIn() {
+        const loggedInIdLocal = getStorageItem(sessionStorage, 'user') || ''
+        return loggedInIdLocal.length > 0
+    }
     render() {
         const buttonTitleExport = 'Save your data to a local file you can view on your system.',
               buttonTitleDelete = 'You will be asked to confirm the removal of all your data.',
@@ -111,10 +115,14 @@ class ContentFrameContainer extends React.Component {
                     <div className="github">
                         Track Your Cash is <a href="https://github.com/KDCinfo/track-your-cash" target="kdcNewWin">Open Source on GitHub</a>
                     </div>
-                    <div className="delete-account">
-                        <Button className={!this.props.loggedInId ? 'hide' : ''} bsSize="sm" title={buttonTitleExport} onClick={this.exportIt.bind(this)}>Export (save your data)</Button>
+                    <div className={!this.isLoggedIn() ? 'hide' : 'delete-account'}>
+                        <Button bsSize="sm" title={buttonTitleExport} onClick={this.exportIt.bind(this)}>Export (save your data)</Button>
                         &nbsp;&nbsp;
-                        <Button className={!this.props.loggedInId ? 'hide' : ''} bsSize="sm" title={buttonTitleDelete}onClick={this.deleteAccount.bind(this)}>Delete Account</Button>
+                        <Button bsSize="sm" title={buttonTitleDelete}onClick={this.deleteAccount.bind(this)}>Delete Account</Button>
+                    </div>
+                    <div className="footer-right">
+                        <span className="mobile-only"><span className="hide-created-575">Created by: </span><a href="https://kdcinfo.com" target="kdcinfo">KDC-Info</a></span>
+                        <span className="non-mobile-i">Created by: <a href="https://kdcinfo.com" target="kdcinfo">KDC-Info</a></span>
                     </div>
                 </footer>
             </div>

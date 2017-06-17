@@ -65,12 +65,30 @@ header a,
     }
     footer {
       border-top: 1px solid rgba(100,150,220,.25);
-      margin: 3rem auto 0;
+      margin: 3rem auto 1rem;
       padding-top: 1rem;
       position: relative;
       text-align: center;
     }
+      footer .footer-left {
+      }
+      footer .footer-right {
+        position: absolute;
+          bottom: 0;
+          right: 1rem;
+      }
+        @media (max-width: 575px) {
+            footer .footer-right {
+              position: relative;
+            }
+        }
+        @media (min-width: 575px) {
+            footer .footer-right .hide-created-575 {
+              display: none;
+            }
+        }
       footer .delete-account {
+        margin-bottom: 1.5rem;
         margin-top: 1.5rem;
       }
 
@@ -369,7 +387,7 @@ a.active {
 }
 
 
-/* UTIL */
+/* UTIL - Utility */
 
 .no-wrap,
 .nowrap,
@@ -377,7 +395,27 @@ a.active {
   display: inline-block;
   white-space: nowrap;
 }
-
+@media (max-width: 768px) {
+    .non-mobile-i,
+    .non-mobile-ib,
+    .non-mobile-b {
+        display: none;
+    }
+}
+@media (min-width: 768px) {
+    .mobile-only {
+        display: none !important;
+    }
+    .non-mobile-i {
+        display: inline;
+    }
+    .non-mobile-ib {
+        display: inline-block;
+    }
+    .non-mobile-b {
+        display: block;
+    }
+}
 
 /* PAGE-SPECIFIC */
 
