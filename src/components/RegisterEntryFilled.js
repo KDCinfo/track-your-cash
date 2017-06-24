@@ -1,6 +1,9 @@
 /*
     React Component - Form: Checking Register Entry Form
 
+        - Parent container for [Form: Date Input Field]
+        - (native Date input field with non-native fallback)
+
     New and Existing entries:
         [New]       eid === 0
         [Existing]  eid > 0
@@ -13,6 +16,7 @@
 */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -39,9 +43,9 @@ class RegisterEntryFilledContainer extends React.Component {
         // Test whether a native date input falls back to a text input (i.e., native date input is not supported)
         //
             let testType = document.createElement('input'),
-                showInputDate
+                showNativeDate
             testType.type = 'date'
-            showInputDate = testType.type === 'text' ? false : true
+            showNativeDate = testType.type === 'text' ? false : true
 
         // Set page exit warning if a 'previous entry' has been modified
         // User is prompted with an alert asking if the would like to cancel the edit, or stay on the page.
@@ -67,18 +71,20 @@ class RegisterEntryFilledContainer extends React.Component {
                     notes: false,
                     reconciled: false
                 },
-                showInputDate: showInputDate,
+                showNativeDate: showNativeDate,
                 descriptionLength: 150,
                 typeLength: 25,
                 categoryLength: 50,
                 notesLength: 150,
 
+                dateError: '',
                 amountError: '',
                 descriptionError: '',
                 typeError: '',
                 categoryError: '',
                 notesError: '',
 
+                dateValid: null,
                 amountValid: null,
                 descriptionValid: null,
                 typeValid: null,
@@ -236,6 +242,8 @@ class RegisterEntryFilledContainer extends React.Component {
                 case 'date':
                     if (typeof(val) !== 'string' || val.length !== 8 || !val.match(formatDateStripped)) {
                         errors[key] = 'The [' + key + '] field should be an 8-digit number representing yyyymmdd'
+                        this.setState({ dateValid: 'error' })
+                        this.setState({ dateError: errors[key] })
                     } else {
                         // This should be validated further where:
                             // yyyy should be a number between 1900 and 9999
@@ -505,7 +513,7 @@ class RegisterEntryFilledContainer extends React.Component {
                         <Col className="field-col" xs={col56} sm={3}>
                             <DateInput
                                 entryId={entryEdit.id}
-                                showInputDate={this.state.showInputDate}
+                                showNativeDate={this.state.showNativeDate}
                                 handleChangeDate={this.handleChangeDate.bind(this)}
                                 months={this.state.months}
                                 date={entryEdit.date}
@@ -667,7 +675,7 @@ class RegisterEntryFilledContainer extends React.Component {
                     <Row className="show-grid clearfix">
                         <Col xs={12} className="text-right">
                             <input type="hidden" value={entryEdit.id} name="entry-id" required />
-                            <Button type="submit" disabled={!this.props.yieldRouteHistoryBlock}>Add</Button>
+                            <Button type="submit" className="btn btn-primary" disabled={!this.props.yieldRouteHistoryBlock}>Add</Button>
                         </Col>
                     </Row>
                 </Form>
@@ -696,5 +704,16 @@ const RegisterEntryFilled = withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )(RegisterEntryFilledContainer))
+
+if(process.env.NODE_ENV !== 'production') {
+    RegisterEntryFilled.propTypes = {
+        entry : PropTypes.object.isRequired,
+        editId : PropTypes.number.isRequired,
+        yieldRouteHistoryBlock : PropTypes.bool.isRequired,
+        editEntry : PropTypes.func.isRequired,
+        editEntryCancel : PropTypes.func.isRequired,
+        deleteEntry : PropTypes.func.isRequired
+    }
+}
 
 export default RegisterEntryFilled

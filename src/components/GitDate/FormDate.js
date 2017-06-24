@@ -3,7 +3,7 @@
 
         - An HTML5 native Date input field with non-native fallback support as outlined in the MDN documentation
 
-    Simplified Overview
+    Simplified Overview:
 
         Native:
             <input type="date" />
@@ -13,7 +13,7 @@
             <select name="month" />
             <select name="day" />
 
-    Features
+    Features:
 
         Auto-detects native date field support
         Auto-adjusts number of days available based on year/month input
@@ -27,19 +27,21 @@
         this.props.yearSelect                // yyyy              | Non-native fallback support - Year field
         this.props.monthSelect               // 01 (0-padded)     | Non-native fallback support - Month field
         this.props.daySelect                 // 01 (0-padded)     | Non-native fallback support - Day field
-        this.props.months                    // ['Jan','Feb',...] | Set in parent to allow for parental 'day' field manipulation.
         this.props.days                      // [<option>1</option><option>2</option>,...] | An array whose length is based on year & month.
         this.props.isDateRequired            // [bool] true|false |
+
+        Functions:
+
+        months                               // ['Jan','Feb',...] | Allows for parental 'day' field manipulation.
 
     Usage:
 
         <DateInput
-            entryId={entryEdit.id}
+            entryId={entryEdit.fid}
             showNativeDate={this.state.showNativeDate}
             handleChangeDate={this.handleChangeDate.bind(this)}
-            months={this.state.months}
             date={entryEdit.date}
-            days={this.populateDays()}
+            days={populateDays(entryEdit.date)}
             daySelect={entryEdit.date.substr(6, 2)}
             monthSelect={entryEdit.date.substr(4, 2)}
             yearSelect={entryEdit.date.substr(0, 4)}
@@ -48,7 +50,7 @@
             isDateDisabled={!isEdit}
         />
 
-    Dependencies
+    Dependencies:
 
         {   "dependencies": {
                 "history": "^4.6.1",
@@ -58,23 +60,21 @@
             },
             "devDependencies": {
                 "react-redux": "^5.0.4",
-                "react-router": "^4.1.1",
-                "react-router-dom": "^4.1.1",
-                "react-router-redux": "^4.0.8",
                 "redux": "^3.6.0",
         }    }
 
-    Author: Keith D Commiskey (2017-06)
+    Author:
+
+        Keith D Commiskey (2017-06)
 */
 
 import React from "react"
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
-class DateInputContainer extends React.Component {
+import { months } from './form-functions'
+
+class DateInput extends React.Component {
     constructor(props) {
         super(props)
 
@@ -104,21 +104,6 @@ class DateInputContainer extends React.Component {
             this.setState({fallbackLabelDisplay: 'inline-block'})
             this.setState({fallbackRequired: true})
         }
-    }
-    componentDidMount() {
-        // console.log('componentDidMount [this.state] and [this.props]')
-        // console.log(this.state)
-        // console.log(this.props)
-    }
-    componentWillUpdate() {
-        // console.log('componentWillUpdate [this.state] and [this.props]')
-        // console.log(this.state)
-        // console.log(this.props)
-    }
-    componentDidUpdate() {
-        // console.log('componentDidUpdate [this.state] and [this.props]')
-        // console.log(this.state)
-        // console.log(this.props)
     }
     handleChangeYearSelect(e) {
         const newDate = e.target.value + this.props.monthSelect + this.props.daySelect
@@ -188,9 +173,9 @@ class DateInputContainer extends React.Component {
                             id={"field-inputMonth-" + this.props.entryId}
                             name="inputMonth"
                             onChange={this.handleChangeMonthSelect.bind(this)}
-                            value={this.props.months[parseFloat(this.props.monthSelect)-1]}
+                            value={months[parseFloat(this.props.monthSelect)-1]}
                         >
-                            { this.props.months.map( (month, idx) => <option key={idx}>{month}</option> ) }
+                            { months.map( (month, idx) => <option key={idx}>{month}</option> ) }
                         </FormControl>
                     </FormGroup>
                     <FormGroup>
@@ -215,7 +200,7 @@ class DateInputContainer extends React.Component {
 }
 
 if(process.env.NODE_ENV !== 'production') {
-    DateInputContainer.propTypes = {
+    DateInput.propTypes = {
 
         entryId : PropTypes.number.isRequired,
         // [int] >= 0 | Used for: IDs - field-date- field-inputYear- field-inputMonth- field-inputDay-
@@ -267,18 +252,5 @@ if(process.env.NODE_ENV !== 'production') {
     this.props.isDateRequired            // [bool] true|false |
     this.props.isDateDisabled
 */
-
-const mapStateToProps = (state) => {
-    return {}
-}
-
-const mapDispatchToProps = dispatch => {
-    return {}
-}
-
-const DateInput = withRouter(connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DateInputContainer))
 
 export default DateInput

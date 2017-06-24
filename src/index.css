@@ -159,7 +159,8 @@ header a,
       padding-left: .3rem;
     }
     .entry-current button[type="submit"] {
-      margin: 0 .5rem 1rem 0;
+      margin: 1rem 0 0;
+      min-width: 115px;
     }
   .entry-previous {
     border-top: 2px solid rgba(0,128,0,.35);
@@ -322,6 +323,7 @@ header a,
       }
       .title-right-slot button {
         margin-right: 1.5rem;
+        min-width: 125px;
       }
       .title-right-slot .pref {
         background-color: #ffffff;

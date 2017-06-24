@@ -65,7 +65,7 @@ class ContentFrameContainer extends React.Component {
     }
     deleteAccount(e) {
         // console.log('[deleteAccount]', this.props.loggedInId)
-        if (confirm('Are you absolutely sure\r\n\r\nyou want to delete all your data?')) {
+        if (window.confirm('Are you absolutely sure\r\n\r\nyou want to delete all your data?')) {
             deleteStorageItem(localStorage, this.props.loggedInId);
             deleteStorageItem(sessionStorage, 'user');
             deleteStorageItem(sessionStorage, 'entry');

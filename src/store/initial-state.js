@@ -1,15 +1,9 @@
 import { getStorageItem, getObjectFromStorage, setStorageItem, deleteStorageItem } from './functions'
-import { VisibilityFilters } from './actions'
-
-const { SHOW_ALL } = VisibilityFilters
 
 const initialState = {
     loggedInId: '',
     base: 0,
     registry: [],
-    visibilityFilter: SHOW_ALL,
-    withdrawError : false,
-    transactionSuccess : false,
     currentEntry: {},
     types: ['Deposit', 'Withdraw', 'EFT', 'Cash', 'ATM', 'Debit', 'Credit'],
     categorys: [

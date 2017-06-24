@@ -31,10 +31,7 @@ This 'Project Notes' section is \`coded in Markdown\` (just wanted to see that I
     'Expense - Petty Cash',
     'Expense - Travel',
   ],
-  base: 0,                    // (to be used for archiving)
-  visibilityFilter: SHOW_ALL, // (to be used for filtering)
-  withdrawError : false,      // (to be used for overdraft warnings/notifications)
-  transactionSuccess : false, // (currently unused)
+  base: 0                     // (to be used for archiving)
 \`\`\`
 
 ## Components
@@ -61,6 +58,4 @@ This 'Project Notes' section is \`coded in Markdown\` (just wanted to see that I
                                  |     Add Entry
 \`\`\`
 `
-console.log('myMarkP')
-
 export default myMarkP

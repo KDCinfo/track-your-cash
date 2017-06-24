@@ -4,15 +4,11 @@ import initialState, { getLoadedEntry } from './initial-state'
 
 const clearFormObject = () => {
     return {
-        withdrawError: false,
-        transactionSuccess: false,
         currentEntry: getLoadedEntry()
     }
 }
 const clearFormExistObject = () => {
     return {
-        withdrawError: false,
-        transactionSuccess: false,
         existingEntry: {}
     }
 }
@@ -52,11 +48,6 @@ const registerReducer = (state = {}, action) => {
             return entry
           })
           return {...state, registry: newRegistry}
-        case ACTIONS.INPUT_TYPING_REG: {
-          const registryObj = [],
-            obj = {withdrawError: false, transactionSuccess: false, registry: registryObj.concat( { [action.key]: action.value } ) }
-          return {...state, ...obj}
-        }
         case ACTIONS.LOGIN_NEW: {
           const newState = {...initialState, loggedInId: action.email}
           return {...state, ...newState}

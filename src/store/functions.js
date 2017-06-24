@@ -1,5 +1,3 @@
-import formatDate from 'dateformat'
-import config from '../store/config'
 import * as ACTIONS from '../store/actions'
 
 export function actionCreator(type, ...argNames) {
@@ -30,10 +28,6 @@ export const formatFixed2 = amount => {
     let amt = parseFloat(amount)
     let formatted = amt.toFixed(2)
     return formatted
-}
-
-export const getFormattedDate = date => {
-    return formatDate(date, config.dateFormat)
 }
 
 export const getLastTransactionId = tArr => {
