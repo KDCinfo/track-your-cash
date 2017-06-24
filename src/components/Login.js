@@ -34,7 +34,7 @@ class LoginContainer extends React.Component {
         this.props.actions.login(email)
         setStorageItem(sessionStorage, 'user', email)
         this.props.actions.updateStateField('currentEntry', getLoadedEntry())
-        this.props.history.push('/' + config.registerText)
+        this.props.history.push('/' + config.registerText.toLowerCase())
     }
     render() {
         const {loggedInId} = this.props;
