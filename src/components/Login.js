@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 
 import { Well, Grid, Row, Col } from 'react-bootstrap'
 
 import LoginForm from './LoginForm'
-import * as ACTIONS from '../store/actions';
-import {setStorageItem} from '../store/functions';
+import { clearForm, clearFormExist, inputTyping, login, updateStateField } from '../store/actions';
+import { setStorageItem } from '../store/functions';
 import config from '../store/config';
 import { getLoadedEntry } from '../store/initial-state'
 
@@ -83,7 +83,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actions: bindActionCreators(ACTIONS, dispatch)
+        actions: bindActionCreators({clearForm, clearFormExist, inputTyping, login, updateStateField}, dispatch)
     }
 }
 

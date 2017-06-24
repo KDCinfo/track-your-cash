@@ -1,4 +1,4 @@
-import * as ACTIONS from '../store/actions'
+import { LOGIN_NEW, SUBMIT_TRANSACTION } from '../store/actions'
 
 export function actionCreator(type, ...argNames) {
     return function(...args) {
@@ -79,14 +79,14 @@ export const deleteStorageItem = (storage, key) => {
 
 export const localStorageMiddleWare = store => next => action => {
     let result = next(action)
-    if(action.type === ACTIONS.LOGIN_NEW) {
+    if(action.type === LOGIN_NEW) {
         let newState = store.getState()
         // let {registry} = newState
         // let dataObj = {registry}
 // console.log('localStorageMiddleWare LOGIN_NEW', newState, dataObj, JSON.stringify(dataObj))
         setStorageItem(localStorage, newState.loggedInId, JSON.stringify(newState))
     }
-    if(action.type === ACTIONS.SUBMIT_TRANSACTION) {
+    if(action.type === SUBMIT_TRANSACTION) {
         let newState = store.getState()
         let {registry} = newState
         let dataObj = {registry}

@@ -30,7 +30,7 @@ import RegisterList from './RegisterList'
 import { Row, Col, Clearfix, Form, FormGroup, ControlLabel, FormControl,
          Button, Table, HelpBlock, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap'
 
-import * as ACTIONS from '../store/actions'
+import { clearForm, clearFormExist, inputTyping, updateStateField, updateRegistryEntry, addToStateArray } from '../store/actions'
 
 import { formatFixed2, getStorageItem, setStorageItem, deleteStorageItem } from '../store/functions'
 
@@ -449,7 +449,7 @@ class RegisterEntryFilledContainer extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.props.types.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.props.actions.deleteListItem} listItem={item} listList="types" /> ) }
+                        { this.props.types.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.deleteListItem} listItem={item} listList="types" /> ) }
                     </tbody>
                 </Table>
             </Popover>
@@ -469,7 +469,7 @@ class RegisterEntryFilledContainer extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.props.categorys.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.props.actions.deleteListItem} listItem={item} listList="categorys" /> ) }
+                        { this.props.categorys.map( (item, idx) => <RegisterList key={idx} deleteListItem={this.deleteListItem} listItem={item} listList="categorys" /> ) }
                     </tbody>
                 </Table>
             </Popover>
@@ -696,7 +696,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actions: bindActionCreators(ACTIONS, dispatch)
+        actions: bindActionCreators({ clearForm, clearFormExist, inputTyping, updateStateField, updateRegistryEntry, addToStateArray }, dispatch)
     }
 }
 

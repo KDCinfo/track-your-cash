@@ -10,7 +10,7 @@ import { getStorageItem, setStorageItem, deleteStorageItem, formatFixed2 } from 
 import RegisterEntryFilled from './RegisterEntryFilled'
 import TextFiltered from './TextFiltered'
 
-import * as ACTIONS from '../store/actions'
+import { removeFromStateArray } from '../store/actions'
 
 class RegisterRootContainer extends React.Component {
     constructor(props) {
@@ -223,7 +223,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actions: bindActionCreators(ACTIONS, dispatch)
+        actions: bindActionCreators({ removeFromStateArray }, dispatch)
     }
 }
 

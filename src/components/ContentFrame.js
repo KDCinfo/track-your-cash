@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 
 import { NavLink } from 'react-router-dom'
 import { PageHeader, Button } from 'react-bootstrap'
 
 import Logout from './Logout'
 import { getStorageItem, deleteStorageItem } from '../store/functions'
-import * as ACTIONS from '../store/actions'
+import { logoutUser } from '../store/actions'
 
 class ContentFrameContainer extends React.Component {
     constructor(props) {
@@ -138,7 +138,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actions: bindActionCreators(ACTIONS, dispatch)
+        actions: bindActionCreators({ logoutUser }, dispatch)
     }
 }
 
