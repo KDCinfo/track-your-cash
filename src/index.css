@@ -34,7 +34,7 @@ header a,
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
 }
   #root {
-    background-image: url(/assets/images/register_checkbook_homepage.jpg);
+    background-image: url(./assets/images/register_checkbook_homepage.jpg);
       background-repeat: no-repeat;
       background-position: 50% 0%;
       /*background-size: 100% 100%;*/
