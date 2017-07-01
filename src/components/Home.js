@@ -1,14 +1,14 @@
 import React from 'react'
-
 import { NavLink } from 'react-router-dom'
-
 import { Well } from 'react-bootstrap'
+
+import config from '../store/config';
 
 import './Home.css'
 
 class Home extends React.Component {
     render() {
-        const whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
+        const whichPath = config.rootPath
         return (
             <Well bsSize="large">
                 <div className="div-home">

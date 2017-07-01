@@ -9,6 +9,7 @@ import { Router, Route, Switch } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
 
 import { localStorageMiddleWare } from './store/functions';
+import config from './store/config';
 
 // // // // // // // // // //
 // [reducers.js]
@@ -94,7 +95,7 @@ if(process.env.NODE_ENV !== 'production') {
     const CRA = () => <Markdown myMark={myMarkR} />
     const CRAContainer = () => <ContentFrame><CRA /></ContentFrame>
 
-    const whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
+    const whichPath = config.rootPath
 
 const App = ({ store }) => (
     <Provider store={store}>

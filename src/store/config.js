@@ -1,4 +1,7 @@
+const whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
+
 const config = {
+    rootPath: whichPath,
     homeText: 'Home',
     loginText: 'Login',
     registerText: 'Register',

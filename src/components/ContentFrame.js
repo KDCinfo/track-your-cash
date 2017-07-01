@@ -9,13 +9,14 @@ import { PageHeader, Button } from 'react-bootstrap'
 import Logout from './Logout'
 import { getStorageItem, deleteStorageItem } from '../store/functions'
 import { logoutUser } from '../store/actions'
+import config from '../store/config';
 
 class ContentFrameContainer extends React.Component {
     constructor(props) {
         super(props)
 
         const isLocal = (process.env.NODE_ENV !== 'production'),
-              whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
+              whichPath = config.rootPath
 
         this.handleClickLogout = this.handleClickLogout.bind(this)
         this.getRegisterLink = this.getRegisterLink.bind(this)
