@@ -1,12 +1,15 @@
+[![Build Status](https://travis-ci.org/KDCinfo/track-your-cash.svg?branch=master)](https://travis-ci.org/KDCinfo/track-your-cash)
+
 # Track Your Cash
 
 Track Your Cash is a project I created to get a better understanding of how the React ecosystem works.
 
 ## Application URLs
 
-[Demo running on Digital Ocean](http://138.68.225.64)
-
-[Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
+- [GitHub Source (Code)](https://github.com/KDCinfo/track-your-cash)
+- [GitHub Pages (Demo)](https://KDCinfo.github.io/track-your-cash/)
+- [Travis CI (Prod Build)](https://travis-ci.org/KDCinfo/track-your-cash)
+- [Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
 
 ## Tech Stack
 
@@ -14,8 +17,7 @@ Working on this project provided me a more in-depth look into
   - React (15.5.4)
   - React-Router 4
   - Redux state management
-  - Local component state
-  - Props and HOCs/HOFs
+  - Local component state and props
   - Client-side localStorage
   - Client-side sessionStorage
 
@@ -328,3 +330,25 @@ In completing this project, the following notes were removed from the Home page:
   - Prettied up 'Home' page.
   - Added a background-image to all the pages.
   - Customized the top navigational menu buttons and footer link.
+
+--------------------------------------------------
+
+### 2017-06-23 : Fri
+
+#### Code tweaks, began testing, and some superfluous code removal.
+
+Most of these were done per build and testing callouts.
+
+  - `.babelrc` - Added for testing (Jest / Enzyme). Also added test components (will be extracted out later)
+  - `package.json` - Added prop-types and testing modules
+
+  - `ContentFrame.js` - Clarified `confirm` with `window.confirm`
+  - `DateInput.js` - Added prop-types; Renamed `showNativeDate`
+  - `RegisterEntryFilled.js` - Added prop-types; Renamed `showNativeDate`; Added error code for date
+
+  - `index.js` - Moved all `import`s to top of file
+  - `actions.js` - Removed superfluous code
+  - `functions.js` - Removed superfluous `dateformat` and `config` imports
+  - `initial-state.js` - Removed superfluous code
+  - `readme-project.js` - Removed superfluous code
+  - `reducers.js` - Removed superfluous code and unused action (input_typing_reg)

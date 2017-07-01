@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginContainer: Jest Snapshot 1`] = `
+<div
+  className="div-c"
+>
+  <header>
+    <div
+      className="page-header"
+    >
+      <h1>
+        Track Your Ca
+        <small>
+          <b>
+            $
+          </b>
+        </small>
+        h
+        <br />
+        <small>
+          (a checking register)
+        </small>
+      </h1>
+    </div>
+    <nav>
+      <span
+        className="no-wrap"
+      >
+        <a
+          className="active"
+          href="/"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          Home
+        </a>
+      </span>
+       
+      <span>
+        <span
+          className="no-wrap"
+        >
+          <a
+            className={undefined}
+            href="/login"
+            onClick={[Function]}
+            style={undefined}
+          >
+            Get Started
+          </a>
+        </span>
+         
+      </span>
+      <span
+        className="no-wrap"
+      >
+        <a
+          className={undefined}
+          href="/readme"
+          onClick={[Function]}
+          style={undefined}
+        >
+          Project Notes
+        </a>
+      </span>
+       
+      
+      <span
+        className="no-wrap"
+      >
+        <a
+          className={undefined}
+          href="/about"
+          onClick={[Function]}
+          style={undefined}
+        >
+          About
+        </a>
+      </span>
+       
+      <span />
+    </nav>
+  </header>
+  <main
+    className="content"
+  >
+    <div
+      className="container-fluid"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <section>
+            <h3>
+              Access Your Register
+            </h3>
+            <p>
+              Enter your e-mail below to login or create an account.
+            </p>
+          </section>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <main>
+            <div
+              className="well well-lg"
+            >
+              <form
+                className="login-form "
+                onSubmit={[Function]}
+              >
+                <div
+                  className="show-grid row"
+                >
+                  <div
+                    className="col-sm-7 col-xs-12"
+                  >
+                    <div
+                      className="form-group"
+                    >
+                      <span
+                        className="input-group"
+                      >
+                        <span
+                          className="input-group-addon"
+                        >
+                          @
+                        </span>
+                        <input
+                          autoFocus={true}
+                          className="form-control"
+                          id={undefined}
+                          onChange={[Function]}
+                          placeholder="E-mail (required)"
+                          required={true}
+                          title="E-mail (required)"
+                          type="email"
+                          value=""
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className="col-sm-5 col-xs-12"
+                  >
+                    <button
+                      className="btn btn-default"
+                      disabled={false}
+                      type="submit"
+                    >
+                      Your Register Awaits...
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </main>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <aside>
+            An account will be created if the provided e-mail does not already exist in the system. This is a public 'for fun' register and should not be used to keep track of your real finances. You can, however, 
+            <a
+              href="https://github.com/KDCinfo/track-your-cash"
+              target="kdcNewWindow"
+            >
+              fork this repo from GitHub
+            </a>
+             and set it up on your own local box, or somewhere behind authentication.
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div
+      className="github"
+    >
+      Track Your Cash is 
+      <a
+        href="https://github.com/KDCinfo/track-your-cash"
+        target="kdcNewWin"
+      >
+        Open Source on GitHub
+      </a>
+    </div>
+    <div
+      className="hide"
+    >
+      <button
+        className="btn btn-sm btn-default"
+        disabled={false}
+        onClick={[Function]}
+        title="Save your data to a local file you can view on your system."
+        type="button"
+      >
+        Export (save your data)
+      </button>
+        
+      <button
+        className="btn btn-sm btn-default"
+        disabled={false}
+        onClick={[Function]}
+        title="You will be asked to confirm the removal of all your data."
+        type="button"
+      >
+        Delete Account
+      </button>
+    </div>
+    <div
+      className="footer-right"
+    >
+      <span
+        className="mobile-only"
+      >
+        <span
+          className="hide-created-575"
+        >
+          Created by: 
+        </span>
+        <a
+          href="https://kdcinfo.com"
+          target="kdcinfo"
+        >
+          KDC-Info
+        </a>
+      </span>
+      <span
+        className="non-mobile-i"
+      >
+        Created by: 
+        <a
+          href="https://kdcinfo.com"
+          target="kdcinfo"
+        >
+          KDC-Info
+        </a>
+      </span>
+    </div>
+  </footer>
+</div>
+`;

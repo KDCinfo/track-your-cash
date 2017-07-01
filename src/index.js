@@ -5,10 +5,10 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk';
 
-import {localStorageMiddleWare} from './store/functions';
-
 import { Router, Route, Switch } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
+
+import { localStorageMiddleWare } from './store/functions';
 
 // // // // // // // // // //
 // [reducers.js]

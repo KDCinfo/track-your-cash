@@ -1,5 +1,5 @@
 {
-  "name": "track-your-cash-register",
+  "name": "track-your-cash",
   "version": "1.0.0",
   "description": "An Online Client-Side Checking Register",
   "private": true,
@@ -39,6 +39,6 @@
     "eject": "react-scripts eject",
     "jest": "jest --watch"
   },
-  "homepage": ".",
+  "homepage": "https://KDCinfo.github.io/track-your-cash/",
   "author": "Keith D Commiskey"
 }

@@ -29,7 +29,7 @@ class ContentFrameContainer extends React.Component {
         }
     }
     getRegisterLink() {
-        const loggedInIdLocal = getStorageItem(sessionStorage, 'user') || '',
+        const loggedInIdLocal = (typeof(sessionStorage) !== 'undefined' && getStorageItem(sessionStorage, 'user')) || '',
               isLoggedIn = loggedInIdLocal.length > 0
 
         return (
@@ -44,7 +44,7 @@ class ContentFrameContainer extends React.Component {
         )
     }
     getLogoutLink() {
-        const loggedInIdLocal = getStorageItem(sessionStorage, 'user') || '',
+        const loggedInIdLocal = (typeof(sessionStorage) !== 'undefined' && getStorageItem(sessionStorage, 'user')) || '',
               isLoggedIn = loggedInIdLocal.length > 0
 
         return (
@@ -84,7 +84,7 @@ class ContentFrameContainer extends React.Component {
             linkElement.click()
     }
     isLoggedIn() {
-        const loggedInIdLocal = getStorageItem(sessionStorage, 'user') || ''
+        const loggedInIdLocal = (typeof(sessionStorage) !== 'undefined' && getStorageItem(sessionStorage, 'user')) || ''
         return loggedInIdLocal.length > 0
     }
     render() {
