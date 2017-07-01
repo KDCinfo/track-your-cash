@@ -98,7 +98,7 @@ const App = ({ store }) => (
     <Provider store={store}>
         <Router history={customHistory}>
             <Switch>
-                <Route path="/" exact component={HomeContainer} />
+                <Route path="/track-your-cash/" exact component={HomeContainer} />
                 <Route path="/login" component={LoginContainer} />
                 <Route path="/register" component={RegisterRootContainer} />
                 <Route path="/readme" component={ProjectNotesContainer} />
