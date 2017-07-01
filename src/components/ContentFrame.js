@@ -14,7 +14,8 @@ class ContentFrameContainer extends React.Component {
     constructor(props) {
         super(props)
 
-        const isLocal = window.location.href.indexOf('192.168') > 0
+        const isLocal = (process.env.NODE_ENV !== 'production'),
+              whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
 
         this.handleClickLogout = this.handleClickLogout.bind(this)
         this.getRegisterLink = this.getRegisterLink.bind(this)
@@ -23,9 +24,10 @@ class ContentFrameContainer extends React.Component {
         this.state = {
             showCRA: isLocal ?
                 <span>
-                    <span className="no-wrap"><NavLink to="/cra">CRA</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={whichPath + '/cra'}>CRA</NavLink></span>&nbsp;
                 </span>
-                : ''
+                : '',
+            whichPath
         }
     }
     getRegisterLink() {
@@ -35,11 +37,11 @@ class ContentFrameContainer extends React.Component {
         return (
             isLoggedIn ?
                 <span>
-                    <span className="no-wrap"><NavLink to="/register">Your Register</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={this.state.whichPath + '/register'}>Your Register</NavLink></span>&nbsp;
                 </span>
                 :
                 <span>
-                    <span className="no-wrap"><NavLink to="/login">Get Started</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={this.state.whichPath + '/login'}>Get Started</NavLink></span>&nbsp;
                 </span>
         )
     }
@@ -102,9 +104,9 @@ class ContentFrameContainer extends React.Component {
                     <nav>
                         <span className="no-wrap"><NavLink exact to="/">Home</NavLink></span>&nbsp;
                         {this.getRegisterLink()}
-                        <span className="no-wrap"><NavLink to="/readme">Project Notes</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink to={this.state.whichPath + '/readme'}>Project Notes</NavLink></span>&nbsp;
                         {this.state.showCRA}
-                        <span className="no-wrap"><NavLink to="/about">About</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink to={this.state.whichPath + '/about'}>About</NavLink></span>&nbsp;
                         {this.getLogoutLink()}
                     </nav>
                 </header>

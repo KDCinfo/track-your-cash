@@ -64,7 +64,21 @@ exports[`LoginContainer: Jest Snapshot 1`] = `
         </a>
       </span>
        
-      
+      <span>
+        <span
+          className="no-wrap"
+        >
+          <a
+            className={undefined}
+            href="/cra"
+            onClick={[Function]}
+            style={undefined}
+          >
+            CRA
+          </a>
+        </span>
+         
+      </span>
       <span
         className="no-wrap"
       >

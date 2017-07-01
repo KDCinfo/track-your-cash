@@ -8,6 +8,7 @@ import './Home.css'
 
 class Home extends React.Component {
     render() {
+        const whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
         return (
             <Well bsSize="large">
                 <div className="div-home">
@@ -27,7 +28,7 @@ class Home extends React.Component {
                     <p>
                         Web developers are in a constant state of learning: I created
                         'Track Your Cash' to get an understanding of how the <a href="https://facebook.github.io/react/" target="kdcNewWin">React</a> ecosystem works.
-                        You can read more on the <NavLink to="/readme">Project Notes</NavLink> page.
+                        You can read more on the <NavLink to={whichPath + '/readme'}>Project Notes</NavLink> page.
                     </p>
                 </div>
             </Well>
