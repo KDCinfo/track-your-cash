@@ -39,6 +39,6 @@
     "eject": "react-scripts eject",
     "jest": "jest --watch"
   },
-  "homepage": "https://KDCinfo.github.io/track-your-cash/",
+  "homepage": ".",
   "author": "Keith D Commiskey"
 }
