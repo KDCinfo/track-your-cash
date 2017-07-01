@@ -94,16 +94,18 @@ if(process.env.NODE_ENV !== 'production') {
     const CRA = () => <Markdown myMark={myMarkR} />
     const CRAContainer = () => <ContentFrame><CRA /></ContentFrame>
 
+    const whichPath = (process.env.NODE_ENV === 'production') ? '/track-your-cash' : ''
+
 const App = ({ store }) => (
     <Provider store={store}>
         <Router history={customHistory}>
             <Switch>
-                <Route path="/track-your-cash/" exact component={HomeContainer} />
-                <Route path="/login" component={LoginContainer} />
-                <Route path="/register" component={RegisterRootContainer} />
-                <Route path="/readme" component={ProjectNotesContainer} />
-                <Route path="/cra" component={CRAContainer} />
-                <Route path="/about" component={AboutContainer} />
+                <Route path={whichPath + '/'} exact component={HomeContainer} />
+                <Route path={whichPath + '/login'} component={LoginContainer} />
+                <Route path={whichPath + '/register'} component={RegisterRootContainer} />
+                <Route path={whichPath + '/readme'} component={ProjectNotesContainer} />
+                <Route path={whichPath + '/cra'} component={CRAContainer} />
+                <Route path={whichPath + '/about'} component={AboutContainer} />
             </Switch>
         </Router>
     </Provider>
