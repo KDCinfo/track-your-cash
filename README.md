@@ -352,3 +352,31 @@ Most of these were done per build and testing callouts.
   - `initial-state.js` - Removed superfluous code
   - `readme-project.js` - Removed superfluous code
   - `reducers.js` - Removed superfluous code and unused action (input_typing_reg)
+
+--------------------------------------------------
+
+### 2017-06-30 : Fri
+
+Finished ~2 weeks worth of learning about Testing.
+  - Installed and ran Selenium (used Eclipse; did not setup Grid2)
+  - Ran through various Jest tutorials and setup the basic snapshot match test.
+  - Created some unit (integration?) tests for the Date Input component.
+
+  - Understanding these tests aided nicely in getting my first two projects live on GitHub Pages via Travis CI.
+
+Pushed entire `Register` project to GitHub Pages using Travis CI
+  - Was being hosted on Digital Ocean, but GitHub Pages is free for Open Source projects.
+  - Figured out path issues between local development and GitHub Pages.
+    - Created a global config and applied where applicable.
+
+  - [GitHub Source (Code)](https://github.com/KDCinfo/track-your-cash)
+  - [GitHub Pages (Demo)](https://KDCinfo.github.io/track-your-cash/)
+  - [Travis CI (Prod Build)](https://travis-ci.org/KDCinfo/track-your-cash)
+  - [Quick mockup of checking register entry layout](http://framebox.org/ABYqI-eNFlwC)
+
+Completed branching out native Date Input component into its own GitHub repo.
+  - Provided working demo (on GitHub Pages), and directions for installing locally.
+
+  - [GitHub Source (Code)](https://github.com/KDCinfo/react-form-input-date-native)
+  - [GitHub Pages (Demo)](https://KDCinfo.github.io/react-form-input-date-native/)
+  - [Travis CI (Prod Build)](https://travis-ci.org/KDCinfo/react-form-input-date-native)

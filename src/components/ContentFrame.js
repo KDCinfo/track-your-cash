@@ -15,8 +15,7 @@ class ContentFrameContainer extends React.Component {
     constructor(props) {
         super(props)
 
-        const isLocal = (process.env.NODE_ENV !== 'production'),
-              whichPath = config.rootPath
+        const isLocal = (process.env.NODE_ENV !== 'production')
 
         this.handleClickLogout = this.handleClickLogout.bind(this)
         this.getRegisterLink = this.getRegisterLink.bind(this)
@@ -25,10 +24,9 @@ class ContentFrameContainer extends React.Component {
         this.state = {
             showCRA: isLocal ?
                 <span>
-                    <span className="no-wrap"><NavLink to={whichPath + '/cra'}>CRA</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={config.rootPath + '/cra'}>CRA</NavLink></span>&nbsp;
                 </span>
-                : '',
-            whichPath
+                : ''
         }
     }
     getRegisterLink() {
@@ -38,11 +36,11 @@ class ContentFrameContainer extends React.Component {
         return (
             isLoggedIn ?
                 <span>
-                    <span className="no-wrap"><NavLink to={this.state.whichPath + '/register'}>Your Register</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={config.rootPath + '/register'}>Your Register</NavLink></span>&nbsp;
                 </span>
                 :
                 <span>
-                    <span className="no-wrap"><NavLink to={this.state.whichPath + '/login'}>Get Started</NavLink></span>&nbsp;
+                    <span className="no-wrap"><NavLink to={config.rootPath + '/login'}>Get Started</NavLink></span>&nbsp;
                 </span>
         )
     }
@@ -64,7 +62,7 @@ class ContentFrameContainer extends React.Component {
         this.props.actions.logoutUser();
         deleteStorageItem(sessionStorage, 'user');
         deleteStorageItem(sessionStorage, 'entry');
-        this.props.history.push(this.state.whichPath + '/');
+        this.props.history.push(config.rootPath + '/');
     }
     deleteAccount(e) {
         // console.log('[deleteAccount]', this.props.loggedInId)
@@ -73,7 +71,7 @@ class ContentFrameContainer extends React.Component {
             deleteStorageItem(sessionStorage, 'user');
             deleteStorageItem(sessionStorage, 'entry');
             this.props.actions.logoutUser();
-            this.props.history.push(this.state.whichPath + '/');
+            this.props.history.push(config.rootPath + '/');
         }
     }
     exportIt = () => {
@@ -103,11 +101,11 @@ class ContentFrameContainer extends React.Component {
                         <small>(a checking register)</small>
                     </PageHeader>
                     <nav>
-                        <span className="no-wrap"><NavLink exact to={this.state.whichPath + '/'}>Home</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink exact to={config.rootPath + '/'}>Home</NavLink></span>&nbsp;
                         {this.getRegisterLink()}
-                        <span className="no-wrap"><NavLink to={this.state.whichPath + '/readme'}>Project Notes</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink to={config.rootPath + '/readme'}>Project Notes</NavLink></span>&nbsp;
                         {this.state.showCRA}
-                        <span className="no-wrap"><NavLink to={this.state.whichPath + '/about'}>About</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink to={config.rootPath + '/about'}>About</NavLink></span>&nbsp;
                         {this.getLogoutLink()}
                     </nav>
                 </header>
