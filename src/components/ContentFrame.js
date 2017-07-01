@@ -102,7 +102,7 @@ class ContentFrameContainer extends React.Component {
                         <small>(a checking register)</small>
                     </PageHeader>
                     <nav>
-                        <span className="no-wrap"><NavLink exact to="/">Home</NavLink></span>&nbsp;
+                        <span className="no-wrap"><NavLink exact to={this.state.whichPath + '/'}>Home</NavLink></span>&nbsp;
                         {this.getRegisterLink()}
                         <span className="no-wrap"><NavLink to={this.state.whichPath + '/readme'}>Project Notes</NavLink></span>&nbsp;
                         {this.state.showCRA}
