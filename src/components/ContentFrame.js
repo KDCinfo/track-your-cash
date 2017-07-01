@@ -64,7 +64,7 @@ class ContentFrameContainer extends React.Component {
         this.props.actions.logoutUser();
         deleteStorageItem(sessionStorage, 'user');
         deleteStorageItem(sessionStorage, 'entry');
-        this.props.history.push('/');
+        this.props.history.push(this.state.whichPath + '/');
     }
     deleteAccount(e) {
         // console.log('[deleteAccount]', this.props.loggedInId)
@@ -73,7 +73,7 @@ class ContentFrameContainer extends React.Component {
             deleteStorageItem(sessionStorage, 'user');
             deleteStorageItem(sessionStorage, 'entry');
             this.props.actions.logoutUser();
-            this.props.history.push('/');
+            this.props.history.push(this.state.whichPath + '/');
         }
     }
     exportIt = () => {
